@@ -1,0 +1,31 @@
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.idea/
+
+# Build output
+bin/
+obj/
+Debug/
+Release/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Rider caches
+.idea/
+*.iml
+
+# Resharper caches
+_ReSharper*/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Optional: Rider workspace settings
+*.dotSettings.user
