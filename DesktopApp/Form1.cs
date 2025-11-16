@@ -111,7 +111,18 @@ public partial class Form1 : Form
 
     private void Update()
     {
-        itemsProceed.Text = manager.Sum() + "UAH - Proceed";
+        itemsProceed.Text = manager.Sum() + " UAH - Proceed";
         pickedItemsTable.ClearSelection();
+    }
+
+    private void itemsProceed_Click(object sender, EventArgs e)
+    {
+        if (!manager.ValidQuantity)
+        {
+            MessageBox.Show("Invalid quantity");
+            return;
+        }
+        
+        pages.SelectedIndex = 2;
     }
 }

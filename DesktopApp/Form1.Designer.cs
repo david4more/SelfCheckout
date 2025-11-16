@@ -46,6 +46,7 @@ partial class Form1
         itemsProceed = new System.Windows.Forms.Button();
         categoryCombobox = new System.Windows.Forms.ComboBox();
         checkout = new System.Windows.Forms.TabPage();
+        label3 = new System.Windows.Forms.Label();
         pages.SuspendLayout();
         main.SuspendLayout();
         mainLayout.SuspendLayout();
@@ -58,6 +59,7 @@ partial class Form1
         ((System.ComponentModel.ISupportInitialize)itemsTable).BeginInit();
         itemsGroup.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)pickedItemsTable).BeginInit();
+        checkout.SuspendLayout();
         SuspendLayout();
         // 
         // pages
@@ -269,6 +271,7 @@ partial class Form1
         itemsProceed.TabIndex = 2;
         itemsProceed.Text = "Proceed";
         itemsProceed.UseVisualStyleBackColor = true;
+        itemsProceed.Click += itemsProceed_Click;
         // 
         // categoryCombobox
         // 
@@ -283,6 +286,7 @@ partial class Form1
         // 
         // checkout
         // 
+        checkout.Controls.Add(label3);
         checkout.Location = new System.Drawing.Point(4, 24);
         checkout.Name = "checkout";
         checkout.Padding = new System.Windows.Forms.Padding(3);
@@ -290,6 +294,14 @@ partial class Form1
         checkout.TabIndex = 2;
         checkout.Text = "checkout";
         checkout.UseVisualStyleBackColor = true;
+        // 
+        // label3
+        // 
+        label3.Location = new System.Drawing.Point(129, 59);
+        label3.Name = "label3";
+        label3.Size = new System.Drawing.Size(488, 113);
+        label3.TabIndex = 0;
+        label3.Text = "Checkout placeholder";
         // 
         // Form1
         // 
@@ -310,8 +322,11 @@ partial class Form1
         ((System.ComponentModel.ISupportInitialize)itemsTable).EndInit();
         itemsGroup.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)pickedItemsTable).EndInit();
+        checkout.ResumeLayout(false);
         ResumeLayout(false);
     }
+
+    private System.Windows.Forms.Label label3;
 
     private System.Windows.Forms.Label label2;
 

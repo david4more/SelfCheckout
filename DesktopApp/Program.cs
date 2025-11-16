@@ -195,9 +195,10 @@ public abstract class CheckoutBase
             _Items.Remove(item);
     }
     public decimal Sum() { return _Items.Sum(i => i.Price * i.Quantity); }
+    public bool ValidQuantity => _Items.Count != 0;
     public virtual decimal Price => 0;
     public virtual int DefaultQuantity => 0;
-    public virtual bool Valid => false;
+    public virtual bool ValidTransaction => true;
     public virtual string Name => "";
 }
 
@@ -209,7 +210,7 @@ public class CashRetail : CheckoutBase
 
     public override decimal Price => _Items.Sum(i => i.Price) * (LoyaltyCard ? 0.95m : 1) + (HomeDelivery ? 250m : 0);
     public decimal Change => PaidAmount - Price;
-    public override bool Valid => (_Items.Count != 0 && Price <= PaidAmount);
+    public override bool ValidTransaction => (Price <= PaidAmount);
     public override int DefaultQuantity => 1;
     
     public override string Name => "Cash retail";
