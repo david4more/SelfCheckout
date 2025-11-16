@@ -21,15 +21,6 @@ public static class Utils
             Console.WriteLine("Invalid input. " + textOnFail);
         }
     }
-
-    public static decimal ReadDecimal()
-    {
-        Console.WriteLine("Type in decimal:\n>> ");
-        decimal amount;
-        while (!decimal.TryParse(Console.ReadLine(), out amount))
-            Console.WriteLine("Invalid input. Type in decimal:\n>> ");
-        return amount;
-    }
 }
 
 public class Checkout(int checkoutNumber, string model, List<Item> Items)
