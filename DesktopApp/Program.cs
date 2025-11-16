@@ -1,6 +1,8 @@
+using System.ComponentModel;
+
 namespace DesktopApp;
 
-public static class CheckoutData
+public static class Data
 {
     public static bool Cash = true;
     public static bool Online = true;
@@ -147,7 +149,7 @@ public static class CheckoutData
     };
 }
 
-public class Item(string name, decimal price, int code, string category, int quantity = 1)
+public class Item(string name, decimal price, int code, string category, int quantity = 0)
 {
     public string Name { get; init; } = name;
     public decimal Price { get; init; } = price;
@@ -158,9 +160,45 @@ public class Item(string name, decimal price, int code, string category, int qua
 
 public abstract class CheckoutBase
 {
-    public List<Item> Items = new List<Item>();
+    protected BindingList<Item> _Items = new BindingList<Item>();
+    public BindingList<Item> Items { get => _Items; }
+
+    public void AddItem(int code, int quantity = 1, bool set = false)
+    {
+        if (quantity < 0) return;
+        if (quantity == 0) RemoveItem(code);
+        
+        var item = _Items.FirstOrDefault(i => i.Code == code);
+        if (item != null)
+        {
+            if (set)
+                item.Quantity = quantity;
+            else
+                item.Quantity += quantity;
+            return;
+        }
+        
+        var masterItem = Data.Items.FirstOrDefault(i => i.Code == code);
+        if (masterItem == null) return;
+        
+        if (set)
+            masterItem.Quantity = quantity;
+        else
+            masterItem.Quantity = DefaultQuantity;
+        
+        _Items.Add(masterItem);
+    }
+    public void RemoveItem(int code)
+    {
+        var item = _Items.FirstOrDefault(i => i.Code == code);
+        if (item != null) 
+            _Items.Remove(item);
+    }
+    public decimal Sum() { return _Items.Sum(i => i.Price * i.Quantity); }
     public virtual decimal Price => 0;
+    public virtual int DefaultQuantity => 0;
     public virtual bool Valid => false;
+    public virtual string Name => "";
 }
 
 public class CashRetail : CheckoutBase
@@ -169,28 +207,31 @@ public class CashRetail : CheckoutBase
     public bool LoyaltyCard;
     public bool HomeDelivery;
 
-    public override decimal Price => Items.Sum(i => i.Price) * (LoyaltyCard ? 0.95m : 1) + (HomeDelivery ? 250m : 0);
+    public override decimal Price => _Items.Sum(i => i.Price) * (LoyaltyCard ? 0.95m : 1) + (HomeDelivery ? 250m : 0);
     public decimal Change => PaidAmount - Price;
-    public override bool Valid => (Items.Count != 0 && Price <= PaidAmount);
+    public override bool Valid => (_Items.Count != 0 && Price <= PaidAmount);
+    public override int DefaultQuantity => 1;
+    
+    public override string Name => "Cash retail";
 }
 
-public class CardRetail
+public class CardRetail : CheckoutBase
 {
 }
 
-public class DeliveryRetail
+public class DeliveryRetail : CheckoutBase
 {
 }
 
-public class CashWholesale
+public class CashWholesale : CheckoutBase
 {
 }
 
-public class CardWholesale
+public class CardWholesale : CheckoutBase
 {
 }
 
-public class DeliveryWholesale
+public class DeliveryWholesale : CheckoutBase
 {
 }
 

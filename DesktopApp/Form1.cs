@@ -2,6 +2,8 @@ namespace DesktopApp;
 
 public partial class Form1 : Form
 {
+    private CheckoutBase manager;
+
     public Form1()
     {
         InitializeComponent();
@@ -9,11 +11,13 @@ public partial class Form1 : Form
     
     protected override void OnLoad(EventArgs e)
     {
-        itemsTable.DataSource = CheckoutData.Items;
+        if (DesignMode) return;
+        
+        itemsTable.DataSource = Data.Items;
         itemsTable.Columns["Quantity"].Visible = false;
 
         categoryCombobox.Items.Add("All");
-        categoryCombobox.Items.AddRange(CheckoutData.Categories);
+        categoryCombobox.Items.AddRange(Data.Categories.ToArray());
         categoryCombobox.SelectedIndex = 0;
 
         cardCheckbox.Click += (s, e) => { deliveryCheckbox.Checked = false; };
@@ -22,87 +26,92 @@ public partial class Form1 : Form
         pickedItemsTable.DataSource = new System.ComponentModel.BindingList<Item>();
         pickedItemsTable.Columns["Category"].Visible = false;
         pickedItemsTable.Columns["Code"].Visible = false;
+        pickedItemsTable.Columns["Name"].ReadOnly = true;
+        pickedItemsTable.Columns["Price"].ReadOnly = true;
     }
 
 
     private void proceedButton_Click(object sender, EventArgs e)
     {
-        object checkout;
         if (!wholesaleCheckbox.Checked)
         {
             if (cardCheckbox.Checked)
             {
-                checkout =  new CardRetail();
+                manager =  new CardRetail();
             }
             else if (deliveryCheckbox.Checked)
             {
-                checkout = new DeliveryRetail();
+                manager = new DeliveryRetail();
             }
             else
             {
-                checkout = new CashRetail();
-                
+                manager = new CashRetail();
             }
         }
         else
         {
             if (cardCheckbox.Checked)
             {
-                checkout = new CardWholesale();
+                manager = new CardWholesale();
             }
             else if (deliveryCheckbox.Checked)
             {
-                checkout = new DeliveryWholesale();
+                manager = new DeliveryWholesale();
             }
             else
             {
-                checkout = new CashWholesale();
+                manager = new CashWholesale();
             }
         }
+
+        itemsGroup.Text = manager.Name;
+        pickedItemsTable.DataSource = manager.Items;
         pages.SelectedIndex = 1;
     }
 
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
     {
         string cat = categoryCombobox.SelectedItem.ToString();
-        var filtered = (cat == "All") ? CheckoutData.Items : CheckoutData.Items.Where(c => c.Category == cat).ToList();
+        var filtered = (cat == "All") ? Data.Items : Data.Items.Where(c => c.Category == cat).ToList();
         itemsTable.DataSource = filtered;
     }
 
-    private void table_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    private void itemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0) return;
 
         Item clickedItem = (Item)itemsTable.Rows[e.RowIndex].DataBoundItem;
-        System.ComponentModel.BindingList<Item> data = (System.ComponentModel.BindingList<Item>)pickedItemsTable.DataSource;
-        
-        var existingItem = data.FirstOrDefault(i => i.Code == clickedItem.Code);
-        if (existingItem != null)
-        {
-            ++existingItem.Quantity;
-            pickedItemsTable.Refresh();
-        }
-        else
-            data.Add(clickedItem);
+        manager.AddItem(clickedItem.Code);
 
-        itemsProceed.Text = data.Sum(i => i.Price) + "UAH - Proceed";
-
-        pickedItemsTable.ClearSelection();
+        Update();
+        pickedItemsTable.Refresh();
     }
 
     private void pickedItemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0) return;
+        if (e.ColumnIndex == 4) return;
 
         Item clickedItem = (Item)pickedItemsTable.Rows[e.RowIndex].DataBoundItem;
-        clickedItem.Quantity = 1;
+        manager.RemoveItem(clickedItem.Code);
 
-        System.ComponentModel.BindingList<Item> data = (System.ComponentModel.BindingList<Item>)pickedItemsTable.DataSource;
-        data.Remove(clickedItem);
-
-        itemsProceed.Text = data.Sum(i => i.Price) + "UAH - Proceed";
-        
-        pickedItemsTable.ClearSelection();
+        Update();
     }
 
+    private void pickedItemsTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex != 4) throw new System.NotImplementedException();
+        
+        Item clickedItem = (Item)pickedItemsTable.Rows[e.RowIndex].DataBoundItem;
+        manager.AddItem(clickedItem.Code, (clickedItem.Quantity < manager.DefaultQuantity) 
+                ? manager.DefaultQuantity : clickedItem.Quantity, true);
+
+        Update();
+    }
+
+    private void Update()
+    {
+        itemsProceed.Text = manager.Sum() + "UAH - Proceed";
+        pickedItemsTable.ClearSelection();
+    }
 }

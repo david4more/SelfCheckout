@@ -31,12 +31,13 @@ partial class Form1
         pages = new System.Windows.Forms.TabControl();
         main = new System.Windows.Forms.TabPage();
         mainLayout = new System.Windows.Forms.TableLayoutPanel();
-        label1 = new System.Windows.Forms.Label();
         mainProceed = new System.Windows.Forms.Button();
+        label1 = new System.Windows.Forms.Label();
+        tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
         deliveryCheckbox = new System.Windows.Forms.CheckBox();
         wholesaleCheckbox = new System.Windows.Forms.CheckBox();
-        panel1 = new System.Windows.Forms.Panel();
         cardCheckbox = new System.Windows.Forms.CheckBox();
+        label2 = new System.Windows.Forms.Label();
         items = new System.Windows.Forms.TabPage();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
         itemsTable = new System.Windows.Forms.DataGridView();
@@ -48,7 +49,7 @@ partial class Form1
         pages.SuspendLayout();
         main.SuspendLayout();
         mainLayout.SuspendLayout();
-        panel1.SuspendLayout();
+        tableLayoutPanel1.SuspendLayout();
         items.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
@@ -89,8 +90,9 @@ partial class Form1
         mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
         mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
         mainLayout.Controls.Add(mainProceed, 1, 2);
-        mainLayout.Controls.Add(panel1, 1, 1);
         mainLayout.Controls.Add(label1, 1, 0);
+        mainLayout.Controls.Add(tableLayoutPanel1, 1, 1);
+        mainLayout.Controls.Add(label2, 2, 0);
         mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
         mainLayout.Location = new System.Drawing.Point(3, 3);
         mainLayout.Name = "mainLayout";
@@ -100,16 +102,6 @@ partial class Form1
         mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
         mainLayout.Size = new System.Drawing.Size(786, 416);
         mainLayout.TabIndex = 5;
-        // 
-        // label1
-        // 
-        label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)), System.Drawing.GraphicsUnit.Point, ((byte)0));
-        label1.Location = new System.Drawing.Point(291, 30);
-        label1.Margin = new System.Windows.Forms.Padding(30);
-        label1.Name = "label1";
-        label1.Size = new System.Drawing.Size(201, 78);
-        label1.TabIndex = 4;
-        label1.Text = "Welcome!";
         // 
         // mainProceed
         // 
@@ -123,43 +115,72 @@ partial class Form1
         mainProceed.UseVisualStyleBackColor = true;
         mainProceed.Click += proceedButton_Click;
         // 
+        // label1
+        // 
+        label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)), System.Drawing.GraphicsUnit.Point, ((byte)0));
+        label1.Location = new System.Drawing.Point(291, 30);
+        label1.Margin = new System.Windows.Forms.Padding(30);
+        label1.Name = "label1";
+        label1.Size = new System.Drawing.Size(201, 78);
+        label1.TabIndex = 4;
+        label1.Text = "Welcome!\r\nPick your type of order:";
+        // 
+        // tableLayoutPanel1
+        // 
+        tableLayoutPanel1.ColumnCount = 1;
+        tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tableLayoutPanel1.Controls.Add(deliveryCheckbox, 0, 1);
+        tableLayoutPanel1.Controls.Add(wholesaleCheckbox, 0, 2);
+        tableLayoutPanel1.Controls.Add(cardCheckbox, 0, 0);
+        tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableLayoutPanel1.Location = new System.Drawing.Point(264, 141);
+        tableLayoutPanel1.Name = "tableLayoutPanel1";
+        tableLayoutPanel1.RowCount = 3;
+        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel1.Size = new System.Drawing.Size(255, 132);
+        tableLayoutPanel1.TabIndex = 5;
+        // 
         // deliveryCheckbox
         // 
-        deliveryCheckbox.Location = new System.Drawing.Point(3, 94);
+        deliveryCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        deliveryCheckbox.Location = new System.Drawing.Point(3, 47);
         deliveryCheckbox.Name = "deliveryCheckbox";
-        deliveryCheckbox.Size = new System.Drawing.Size(249, 35);
+        deliveryCheckbox.Size = new System.Drawing.Size(249, 38);
         deliveryCheckbox.TabIndex = 1;
         deliveryCheckbox.Text = "Delivery";
         deliveryCheckbox.UseVisualStyleBackColor = true;
         // 
         // wholesaleCheckbox
         // 
-        wholesaleCheckbox.Location = new System.Drawing.Point(3, 44);
+        wholesaleCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        wholesaleCheckbox.Location = new System.Drawing.Point(3, 91);
         wholesaleCheckbox.Name = "wholesaleCheckbox";
-        wholesaleCheckbox.Size = new System.Drawing.Size(249, 44);
+        wholesaleCheckbox.Size = new System.Drawing.Size(249, 38);
         wholesaleCheckbox.TabIndex = 2;
         wholesaleCheckbox.Text = "Wholesale";
         wholesaleCheckbox.UseVisualStyleBackColor = true;
         // 
-        // panel1
-        // 
-        panel1.Controls.Add(cardCheckbox);
-        panel1.Controls.Add(wholesaleCheckbox);
-        panel1.Controls.Add(deliveryCheckbox);
-        panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-        panel1.Location = new System.Drawing.Point(264, 141);
-        panel1.Name = "panel1";
-        panel1.Size = new System.Drawing.Size(255, 132);
-        panel1.TabIndex = 5;
-        // 
         // cardCheckbox
         // 
+        cardCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
         cardCheckbox.Location = new System.Drawing.Point(3, 3);
         cardCheckbox.Name = "cardCheckbox";
-        cardCheckbox.Size = new System.Drawing.Size(249, 35);
+        cardCheckbox.Size = new System.Drawing.Size(249, 38);
         cardCheckbox.TabIndex = 0;
         cardCheckbox.Text = "Card";
         cardCheckbox.UseVisualStyleBackColor = true;
+        // 
+        // label2
+        // 
+        label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)));
+        label2.Location = new System.Drawing.Point(552, 30);
+        label2.Margin = new System.Windows.Forms.Padding(30);
+        label2.Name = "label2";
+        label2.Size = new System.Drawing.Size(204, 78);
+        label2.TabIndex = 6;
+        label2.Text = "Card checkout on delivery is not supported\r\n";
         // 
         // items
         // 
@@ -206,7 +227,7 @@ partial class Form1
         itemsTable.Size = new System.Drawing.Size(517, 416);
         itemsTable.TabIndex = 0;
         itemsTable.Text = "dataGridView1";
-        itemsTable.CellDoubleClick += table_CellDoubleClick;
+        itemsTable.CellDoubleClick += itemsTable_CellDoubleClick;
         // 
         // itemsGroup
         // 
@@ -231,13 +252,13 @@ partial class Form1
         pickedItemsTable.Dock = System.Windows.Forms.DockStyle.Fill;
         pickedItemsTable.Location = new System.Drawing.Point(3, 42);
         pickedItemsTable.Name = "pickedItemsTable";
-        pickedItemsTable.ReadOnly = true;
         pickedItemsTable.RowHeadersVisible = false;
         pickedItemsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
         pickedItemsTable.Size = new System.Drawing.Size(259, 338);
         pickedItemsTable.TabIndex = 3;
         pickedItemsTable.Text = "dataGridView1";
         pickedItemsTable.CellDoubleClick += pickedItemsTable_CellDoubleClick;
+        pickedItemsTable.CellValueChanged += pickedItemsTable_CellValueChanged;
         // 
         // itemsProceed
         // 
@@ -280,7 +301,7 @@ partial class Form1
         pages.ResumeLayout(false);
         main.ResumeLayout(false);
         mainLayout.ResumeLayout(false);
-        panel1.ResumeLayout(false);
+        tableLayoutPanel1.ResumeLayout(false);
         items.ResumeLayout(false);
         splitContainer1.Panel1.ResumeLayout(false);
         splitContainer1.Panel2.ResumeLayout(false);
@@ -292,7 +313,9 @@ partial class Form1
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Label label2;
+
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
     private System.Windows.Forms.TableLayoutPanel mainLayout;
 
