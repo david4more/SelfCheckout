@@ -31,12 +31,6 @@ public class Checkout(int checkoutNumber, string model, List<Item> Items)
     private string model = model;
     private List<Item> Items = Items;
     private List<(decimal, DateTime)> transactions = new List<(decimal, DateTime)>();
-    
-    private bool cash;
-    private bool online;
-    private bool delivery;
-    private bool cashOnDelivery;
-    private string adress;
 
     // helper functions
     private void CashierPassword()
