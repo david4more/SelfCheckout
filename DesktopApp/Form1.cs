@@ -2,16 +2,10 @@ namespace DesktopApp;
 
 public partial class Form1 : Form
 {
-    private CheckoutBase manager;
-
+    CheckoutBase manager;
     public Form1()
     {
         InitializeComponent();
-    }
-    
-    protected override void OnLoad(EventArgs e)
-    {
-        if (DesignMode) return;
         
         itemsTable.DataSource = Data.Items;
         itemsTable.Columns["Quantity"].Visible = false;
@@ -29,53 +23,31 @@ public partial class Form1 : Form
         pickedItemsTable.Columns["Name"].ReadOnly = true;
         pickedItemsTable.Columns["Price"].ReadOnly = true;
     }
-
-
     private void proceedButton_Click(object sender, EventArgs e)
     {
-        if (!wholesaleCheckbox.Checked)
+        if (!cardCheckbox.Checked)
         {
-            if (cardCheckbox.Checked)
-            {
-                manager =  new CardRetail();
-            }
-            else if (deliveryCheckbox.Checked)
-            {
-                manager = new DeliveryRetail();
-            }
+            if (!deliveryCheckbox.Checked)
+                manager = wholesaleCheckbox.Checked ? new CashWholesale() : new CashRetail();
             else
-            {
-                manager = new CashRetail();
-            }
+                manager = wholesaleCheckbox.Checked ? new DeliveryWholesale() : new DeliveryRetail();
         }
         else
-        {
-            if (cardCheckbox.Checked)
-            {
-                manager = new CardWholesale();
-            }
-            else if (deliveryCheckbox.Checked)
-            {
-                manager = new DeliveryWholesale();
-            }
-            else
-            {
-                manager = new CashWholesale();
-            }
-        }
+            manager = wholesaleCheckbox.Checked ? new CardWholesale() : new CardRetail();
 
+        manager.UpdateUi += (s, e) => Update();
+
+        transactionLayout.Controls.Add(manager.Layout, 0, 0);
         itemsGroup.Text = manager.Name;
         pickedItemsTable.DataSource = manager.Items;
         pages.SelectedIndex = 1;
     }
-
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
     {
         string cat = categoryCombobox.SelectedItem.ToString();
         var filtered = (cat == "All") ? Data.Items : Data.Items.Where(c => c.Category == cat).ToList();
         itemsTable.DataSource = filtered;
     }
-
     private void itemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0) return;
@@ -83,21 +55,18 @@ public partial class Form1 : Form
         Item clickedItem = (Item)itemsTable.Rows[e.RowIndex].DataBoundItem;
         manager.AddItem(clickedItem.Code);
 
-        Update();
         pickedItemsTable.Refresh();
+        Update();
     }
-
     private void pickedItemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0) return;
-        if (e.ColumnIndex == 4) return;
+        if (e.RowIndex < 0 || e.ColumnIndex == 4) return;
 
         Item clickedItem = (Item)pickedItemsTable.Rows[e.RowIndex].DataBoundItem;
         manager.RemoveItem(clickedItem.Code);
 
         Update();
     }
-
     private void pickedItemsTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
         if (e.ColumnIndex != 4) throw new System.NotImplementedException();
@@ -108,21 +77,41 @@ public partial class Form1 : Form
 
         Update();
     }
-
-    private void Update()
-    {
-        itemsProceed.Text = manager.Sum() + " UAH - Proceed";
-        pickedItemsTable.ClearSelection();
-    }
-
     private void itemsProceed_Click(object sender, EventArgs e)
     {
-        if (!manager.ValidQuantity)
-        {
-            MessageBox.Show("Invalid quantity");
+        if (manager.ValidQuantity) pages.SelectedIndex = 2;
+        else MessageBox.Show("Invalid quantity", "Error");
+    }
+    private void transactionProceedButton_Click(object sender, EventArgs e) 
+    {
+        if (!manager.ValidTransaction) {
+            MessageBox.Show("Invalid transaction", "Error");
             return;
         }
-        
-        pages.SelectedIndex = 2;
+
+        transactionTable = pickedItemsTable;
+        pages.SelectedIndex = 3;
+    }
+    private void transactionBackButton_Click(object sender, EventArgs e)
+    {
+        manager.Items.Clear();
+        Update();
+        pages.SelectedIndex = 1;
+    }
+    private void backButton_Click(object sender, EventArgs e)
+    {
+        manager.Clear();
+        wholesaleCheckbox.Checked = false;
+        cardCheckbox.Checked = false;
+        deliveryCheckbox.Checked = false;
+        pages.SelectedIndex = 0;
+        Update();
+    }
+    private void Update()
+    {
+        string text = manager.Price + " UAH - Proceed";
+        itemsProceedButton.Text = text;
+        transactionProceedButton.Text = text;
+        pickedItemsTable.ClearSelection();
     }
 }

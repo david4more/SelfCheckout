@@ -43,10 +43,16 @@ partial class Form1
         itemsTable = new System.Windows.Forms.DataGridView();
         itemsGroup = new System.Windows.Forms.GroupBox();
         pickedItemsTable = new System.Windows.Forms.DataGridView();
-        itemsProceed = new System.Windows.Forms.Button();
+        itemsProceedButton = new System.Windows.Forms.Button();
         categoryCombobox = new System.Windows.Forms.ComboBox();
         checkout = new System.Windows.Forms.TabPage();
-        label3 = new System.Windows.Forms.Label();
+        transactionLayout = new System.Windows.Forms.TableLayoutPanel();
+        tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+        transactionTable = new System.Windows.Forms.DataGridView();
+        transactionBackButton = new System.Windows.Forms.Button();
+        transactionProceedButton = new System.Windows.Forms.Button();
+        tabPage1 = new System.Windows.Forms.TabPage();
+        backButton = new System.Windows.Forms.Button();
         pages.SuspendLayout();
         main.SuspendLayout();
         mainLayout.SuspendLayout();
@@ -60,6 +66,10 @@ partial class Form1
         itemsGroup.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)pickedItemsTable).BeginInit();
         checkout.SuspendLayout();
+        transactionLayout.SuspendLayout();
+        tableLayoutPanel2.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)transactionTable).BeginInit();
+        tabPage1.SuspendLayout();
         SuspendLayout();
         // 
         // pages
@@ -67,6 +77,7 @@ partial class Form1
         pages.Controls.Add(main);
         pages.Controls.Add(items);
         pages.Controls.Add(checkout);
+        pages.Controls.Add(tabPage1);
         pages.Dock = System.Windows.Forms.DockStyle.Fill;
         pages.Location = new System.Drawing.Point(0, 0);
         pages.Name = "pages";
@@ -234,7 +245,7 @@ partial class Form1
         // itemsGroup
         // 
         itemsGroup.Controls.Add(pickedItemsTable);
-        itemsGroup.Controls.Add(itemsProceed);
+        itemsGroup.Controls.Add(itemsProceedButton);
         itemsGroup.Controls.Add(categoryCombobox);
         itemsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
         itemsGroup.Location = new System.Drawing.Point(0, 0);
@@ -262,16 +273,16 @@ partial class Form1
         pickedItemsTable.CellDoubleClick += pickedItemsTable_CellDoubleClick;
         pickedItemsTable.CellValueChanged += pickedItemsTable_CellValueChanged;
         // 
-        // itemsProceed
+        // itemsProceedButton
         // 
-        itemsProceed.Dock = System.Windows.Forms.DockStyle.Bottom;
-        itemsProceed.Location = new System.Drawing.Point(3, 380);
-        itemsProceed.Name = "itemsProceed";
-        itemsProceed.Size = new System.Drawing.Size(259, 33);
-        itemsProceed.TabIndex = 2;
-        itemsProceed.Text = "Proceed";
-        itemsProceed.UseVisualStyleBackColor = true;
-        itemsProceed.Click += itemsProceed_Click;
+        itemsProceedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+        itemsProceedButton.Location = new System.Drawing.Point(3, 380);
+        itemsProceedButton.Name = "itemsProceedButton";
+        itemsProceedButton.Size = new System.Drawing.Size(259, 33);
+        itemsProceedButton.TabIndex = 2;
+        itemsProceedButton.Text = "Proceed";
+        itemsProceedButton.UseVisualStyleBackColor = true;
+        itemsProceedButton.Click += itemsProceed_Click;
         // 
         // categoryCombobox
         // 
@@ -286,7 +297,7 @@ partial class Form1
         // 
         // checkout
         // 
-        checkout.Controls.Add(label3);
+        checkout.Controls.Add(transactionLayout);
         checkout.Location = new System.Drawing.Point(4, 24);
         checkout.Name = "checkout";
         checkout.Padding = new System.Windows.Forms.Padding(3);
@@ -295,13 +306,85 @@ partial class Form1
         checkout.Text = "checkout";
         checkout.UseVisualStyleBackColor = true;
         // 
-        // label3
+        // transactionLayout
         // 
-        label3.Location = new System.Drawing.Point(129, 59);
-        label3.Name = "label3";
-        label3.Size = new System.Drawing.Size(488, 113);
-        label3.TabIndex = 0;
-        label3.Text = "Checkout placeholder";
+        transactionLayout.ColumnCount = 2;
+        transactionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        transactionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        transactionLayout.Controls.Add(tableLayoutPanel2, 1, 0);
+        transactionLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+        transactionLayout.Location = new System.Drawing.Point(3, 3);
+        transactionLayout.Name = "transactionLayout";
+        transactionLayout.RowCount = 1;
+        transactionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        transactionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        transactionLayout.Size = new System.Drawing.Size(786, 416);
+        transactionLayout.TabIndex = 0;
+        // 
+        // tableLayoutPanel2
+        // 
+        tableLayoutPanel2.ColumnCount = 1;
+        tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tableLayoutPanel2.Controls.Add(transactionTable, 0, 1);
+        tableLayoutPanel2.Controls.Add(transactionBackButton, 0, 0);
+        tableLayoutPanel2.Controls.Add(transactionProceedButton, 0, 2);
+        tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableLayoutPanel2.Location = new System.Drawing.Point(396, 3);
+        tableLayoutPanel2.Name = "tableLayoutPanel2";
+        tableLayoutPanel2.RowCount = 3;
+        tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666666F));
+        tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.666664F));
+        tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666666F));
+        tableLayoutPanel2.Size = new System.Drawing.Size(387, 410);
+        tableLayoutPanel2.TabIndex = 0;
+        // 
+        // transactionTable
+        // 
+        transactionTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        transactionTable.Dock = System.Windows.Forms.DockStyle.Fill;
+        transactionTable.Location = new System.Drawing.Point(3, 71);
+        transactionTable.Name = "transactionTable";
+        transactionTable.Size = new System.Drawing.Size(381, 267);
+        transactionTable.TabIndex = 0;
+        transactionTable.Text = "dataGridView1";
+        // 
+        // transactionBackButton
+        // 
+        transactionBackButton.Location = new System.Drawing.Point(3, 3);
+        transactionBackButton.Name = "transactionBackButton";
+        transactionBackButton.Size = new System.Drawing.Size(93, 25);
+        transactionBackButton.TabIndex = 1;
+        transactionBackButton.Text = "button1";
+        transactionBackButton.UseVisualStyleBackColor = true;
+        // 
+        // transactionProceedButton
+        // 
+        transactionProceedButton.Location = new System.Drawing.Point(3, 344);
+        transactionProceedButton.Name = "transactionProceedButton";
+        transactionProceedButton.Size = new System.Drawing.Size(107, 40);
+        transactionProceedButton.TabIndex = 2;
+        transactionProceedButton.Text = "button2";
+        transactionProceedButton.UseVisualStyleBackColor = true;
+        // 
+        // tabPage1
+        // 
+        tabPage1.Controls.Add(backButton);
+        tabPage1.Location = new System.Drawing.Point(4, 24);
+        tabPage1.Name = "tabPage1";
+        tabPage1.Padding = new System.Windows.Forms.Padding(3);
+        tabPage1.Size = new System.Drawing.Size(792, 422);
+        tabPage1.TabIndex = 3;
+        tabPage1.Text = "tabPage1";
+        tabPage1.UseVisualStyleBackColor = true;
+        // 
+        // backButton
+        // 
+        backButton.Location = new System.Drawing.Point(167, 81);
+        backButton.Name = "backButton";
+        backButton.Size = new System.Drawing.Size(287, 77);
+        backButton.TabIndex = 0;
+        backButton.Text = "button1";
+        backButton.UseVisualStyleBackColor = true;
         // 
         // Form1
         // 
@@ -323,10 +406,25 @@ partial class Form1
         itemsGroup.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)pickedItemsTable).EndInit();
         checkout.ResumeLayout(false);
+        transactionLayout.ResumeLayout(false);
+        tableLayoutPanel2.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)transactionTable).EndInit();
+        tabPage1.ResumeLayout(false);
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Button backButton;
+
+    private System.Windows.Forms.Button transactionBackButton;
+    private System.Windows.Forms.Button transactionProceedButton;
+
+    private System.Windows.Forms.TabPage tabPage1;
+
+    private System.Windows.Forms.DataGridView transactionTable;
+
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+
+    private System.Windows.Forms.TableLayoutPanel transactionLayout;
 
     private System.Windows.Forms.Label label2;
 
@@ -338,7 +436,7 @@ partial class Form1
 
     private System.Windows.Forms.DataGridView pickedItemsTable;
 
-    private System.Windows.Forms.Button itemsProceed;
+    private System.Windows.Forms.Button itemsProceedButton;
 
     private System.Windows.Forms.GroupBox itemsGroup;
 
