@@ -51,7 +51,7 @@ partial class Form1
         transactionTable = new System.Windows.Forms.DataGridView();
         transactionBackButton = new System.Windows.Forms.Button();
         transactionProceedButton = new System.Windows.Forms.Button();
-        tabPage1 = new System.Windows.Forms.TabPage();
+        complete = new System.Windows.Forms.TabPage();
         backButton = new System.Windows.Forms.Button();
         pages.SuspendLayout();
         main.SuspendLayout();
@@ -69,7 +69,7 @@ partial class Form1
         transactionLayout.SuspendLayout();
         tableLayoutPanel2.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)transactionTable).BeginInit();
-        tabPage1.SuspendLayout();
+        complete.SuspendLayout();
         SuspendLayout();
         // 
         // pages
@@ -77,7 +77,7 @@ partial class Form1
         pages.Controls.Add(main);
         pages.Controls.Add(items);
         pages.Controls.Add(checkout);
-        pages.Controls.Add(tabPage1);
+        pages.Controls.Add(complete);
         pages.Dock = System.Windows.Forms.DockStyle.Fill;
         pages.Location = new System.Drawing.Point(0, 0);
         pages.Name = "pages";
@@ -193,7 +193,7 @@ partial class Form1
         label2.Name = "label2";
         label2.Size = new System.Drawing.Size(204, 78);
         label2.TabIndex = 6;
-        label2.Text = "Card checkout on delivery is not supported\r\n";
+        label2.Text = "Card payment on delivery is not supported\r\n";
         // 
         // items
         // 
@@ -340,42 +340,55 @@ partial class Form1
         // 
         // transactionTable
         // 
+        transactionTable.AllowUserToAddRows = false;
+        transactionTable.AllowUserToDeleteRows = false;
+        transactionTable.AllowUserToResizeRows = false;
         transactionTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         transactionTable.Dock = System.Windows.Forms.DockStyle.Fill;
         transactionTable.Location = new System.Drawing.Point(3, 71);
         transactionTable.Name = "transactionTable";
+        transactionTable.RowHeadersVisible = false;
+        transactionTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
         transactionTable.Size = new System.Drawing.Size(381, 267);
         transactionTable.TabIndex = 0;
         transactionTable.Text = "dataGridView1";
+        transactionTable.CellDoubleClick += transactionTable_CellDoubleClick;
+        transactionTable.CellValueChanged += transactionTable_CellValueChanged;
         // 
         // transactionBackButton
         // 
-        transactionBackButton.Location = new System.Drawing.Point(3, 3);
+        transactionBackButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        transactionBackButton.Location = new System.Drawing.Point(15, 15);
+        transactionBackButton.Margin = new System.Windows.Forms.Padding(15);
         transactionBackButton.Name = "transactionBackButton";
-        transactionBackButton.Size = new System.Drawing.Size(93, 25);
+        transactionBackButton.Size = new System.Drawing.Size(357, 38);
         transactionBackButton.TabIndex = 1;
-        transactionBackButton.Text = "button1";
+        transactionBackButton.Text = "Back";
         transactionBackButton.UseVisualStyleBackColor = true;
+        transactionBackButton.Click += transactionBackButton_Click;
         // 
         // transactionProceedButton
         // 
-        transactionProceedButton.Location = new System.Drawing.Point(3, 344);
+        transactionProceedButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        transactionProceedButton.Location = new System.Drawing.Point(15, 356);
+        transactionProceedButton.Margin = new System.Windows.Forms.Padding(15);
         transactionProceedButton.Name = "transactionProceedButton";
-        transactionProceedButton.Size = new System.Drawing.Size(107, 40);
+        transactionProceedButton.Size = new System.Drawing.Size(357, 39);
         transactionProceedButton.TabIndex = 2;
-        transactionProceedButton.Text = "button2";
+        transactionProceedButton.Text = "Proceed";
         transactionProceedButton.UseVisualStyleBackColor = true;
+        transactionProceedButton.Click += transactionProceedButton_Click;
         // 
-        // tabPage1
+        // complete
         // 
-        tabPage1.Controls.Add(backButton);
-        tabPage1.Location = new System.Drawing.Point(4, 24);
-        tabPage1.Name = "tabPage1";
-        tabPage1.Padding = new System.Windows.Forms.Padding(3);
-        tabPage1.Size = new System.Drawing.Size(792, 422);
-        tabPage1.TabIndex = 3;
-        tabPage1.Text = "tabPage1";
-        tabPage1.UseVisualStyleBackColor = true;
+        complete.Controls.Add(backButton);
+        complete.Location = new System.Drawing.Point(4, 24);
+        complete.Name = "complete";
+        complete.Padding = new System.Windows.Forms.Padding(3);
+        complete.Size = new System.Drawing.Size(792, 422);
+        complete.TabIndex = 3;
+        complete.Text = "complete";
+        complete.UseVisualStyleBackColor = true;
         // 
         // backButton
         // 
@@ -385,6 +398,7 @@ partial class Form1
         backButton.TabIndex = 0;
         backButton.Text = "button1";
         backButton.UseVisualStyleBackColor = true;
+        backButton.Click += backButton_Click;
         // 
         // Form1
         // 
@@ -409,7 +423,7 @@ partial class Form1
         transactionLayout.ResumeLayout(false);
         tableLayoutPanel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)transactionTable).EndInit();
-        tabPage1.ResumeLayout(false);
+        complete.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -418,7 +432,7 @@ partial class Form1
     private System.Windows.Forms.Button transactionBackButton;
     private System.Windows.Forms.Button transactionProceedButton;
 
-    private System.Windows.Forms.TabPage tabPage1;
+    private System.Windows.Forms.TabPage complete;
 
     private System.Windows.Forms.DataGridView transactionTable;
 

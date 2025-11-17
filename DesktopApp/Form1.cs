@@ -22,6 +22,13 @@ public partial class Form1 : Form
         pickedItemsTable.Columns["Code"].Visible = false;
         pickedItemsTable.Columns["Name"].ReadOnly = true;
         pickedItemsTable.Columns["Price"].ReadOnly = true;
+        
+        
+        transactionTable.DataSource = new System.ComponentModel.BindingList<Item>();
+        transactionTable.Columns["Category"].Visible = false;
+        transactionTable.Columns["Code"].Visible = false;
+        transactionTable.Columns["Name"].ReadOnly = true;
+        transactionTable.Columns["Price"].ReadOnly = true;
     }
     private void proceedButton_Click(object sender, EventArgs e)
     {
@@ -40,6 +47,7 @@ public partial class Form1 : Form
         transactionLayout.Controls.Add(manager.Layout, 0, 0);
         itemsGroup.Text = manager.Name;
         pickedItemsTable.DataSource = manager.Items;
+        transactionTable.DataSource = manager.Items;
         pages.SelectedIndex = 1;
     }
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,17 +98,19 @@ public partial class Form1 : Form
         }
 
         transactionTable = pickedItemsTable;
+        backButton.Text = manager.OnComplete;
         pages.SelectedIndex = 3;
     }
     private void transactionBackButton_Click(object sender, EventArgs e)
     {
-        manager.Items.Clear();
+        manager.ClearProperties();
         Update();
         pages.SelectedIndex = 1;
     }
     private void backButton_Click(object sender, EventArgs e)
     {
-        manager.Clear();
+        transactionLayout.Controls.Remove(manager.Layout);
+        manager.ClearProperties(true);
         wholesaleCheckbox.Checked = false;
         cardCheckbox.Checked = false;
         deliveryCheckbox.Checked = false;
@@ -113,5 +123,8 @@ public partial class Form1 : Form
         itemsProceedButton.Text = text;
         transactionProceedButton.Text = text;
         pickedItemsTable.ClearSelection();
+        transactionTable.ClearSelection();
     }
+    private void transactionTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellDoubleClick(sender, e);
+    private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
 }

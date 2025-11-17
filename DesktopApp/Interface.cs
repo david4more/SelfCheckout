@@ -9,11 +9,12 @@ public abstract class CheckoutBase
     protected void Update() => UpdateUi?.Invoke(this, EventArgs.Empty);
     public BindingList<Item> Items => _Items;
     public TableLayoutPanel Layout => _Layout;
+
     public void AddItem(int code, int quantity = 1, bool set = false)
     {
         if (quantity < 0) return;
         if (quantity == 0) RemoveItem(code);
-        
+
         var item = _Items.FirstOrDefault(i => i.Code == code);
         if (item != null)
         {
@@ -23,17 +24,17 @@ public abstract class CheckoutBase
                 item.Quantity += quantity;
             return;
         }
-        
+
         var masterItem = Data.Items.FirstOrDefault(i => i.Code == code);
         if (masterItem == null) return;
-        
+
         if (set)
             masterItem.Quantity = quantity;
         else
             masterItem.Quantity = DefaultQuantity;
-        
-        _Items.Add(masterItem);
-    }
+
+        _Items.Add(new Item(masterItem.Name, masterItem.Price, masterItem.Code, masterItem.Category, masterItem.Quantity));
+}
     public void RemoveItem(int code)
     {
         var item = _Items.FirstOrDefault(i => i.Code == code);
@@ -41,13 +42,19 @@ public abstract class CheckoutBase
             _Items.Remove(item);
     }
 
-    public virtual void Clear() { _Items.Clear(); UpdateUi = null; }
+    public virtual void ClearProperties(bool total = false)
+    {
+        if (!total) return; 
+        _Items.Clear(); UpdateUi = null;
+    }
     protected virtual decimal Sum => _Items.Sum(i => i.Price * i.Quantity);
     public bool ValidQuantity => _Items.Count != 0;
     public decimal Price => Math.Round(Sum, 2);
     public virtual int DefaultQuantity => 0;
     public virtual bool ValidTransaction => true;
     public virtual string Name => "Base";
+    public string OnComplete => ValidTransaction ? CompleteText : "Invalid Transaction";
+    protected virtual string CompleteText => "Complete";
 }
 public class CashRetail : CheckoutBase
 {
@@ -75,9 +82,9 @@ public class CashRetail : CheckoutBase
         _Layout.Controls.Add(delivery, 0, 1);
         _Layout.Controls.Add(paidAmount, 0, 2);
     }
-    public override void Clear()
+    public override void ClearProperties(bool total = false)
     {
-        base.Clear();
+        base.ClearProperties(total);
         _PaidAmount = 0;
         loyaltyCard.Checked = false;
         delivery.Checked = false;
@@ -87,6 +94,7 @@ public class CashRetail : CheckoutBase
     public override bool ValidTransaction => (Price <= _PaidAmount);
     public override int DefaultQuantity => 1;
     public override string Name => "Cash Retail";
+    protected override string CompleteText => "Your change: " + Change + ".\nHave a nice day!";
 }
 
 public class CardRetail : CheckoutBase
