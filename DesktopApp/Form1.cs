@@ -3,10 +3,11 @@ namespace DesktopApp;
 public partial class Form1 : Form
 {
     CheckoutBase manager;
+
     public Form1()
     {
         InitializeComponent();
-        
+
         itemsTable.DataSource = Data.Items;
         itemsTable.Columns["Quantity"].Visible = false;
 
@@ -14,15 +15,14 @@ public partial class Form1 : Form
         categoryCombobox.Items.AddRange(Data.Categories.ToArray());
         categoryCombobox.SelectedIndex = 0;
 
-        cardCheckbox.Click += (s, e) => { deliveryCheckbox.Checked = false; };
-        deliveryCheckbox.Click += (s, e) => { cardCheckbox.Checked = false; };
-        
-        pickedItemsTable.DataSource = new System.ComponentModel.BindingList<Item>();
+        cardCheckbox.Click += (s, e) => deliveryCheckbox.Checked = false;
+        deliveryCheckbox.Click += (s, e) => cardCheckbox.Checked = false;
+
+        pickedItemsTable.DataSource = new System.ComponentModel.BindingList<Item>(); 
         pickedItemsTable.Columns["Category"].Visible = false;
         pickedItemsTable.Columns["Code"].Visible = false;
         pickedItemsTable.Columns["Name"].ReadOnly = true;
         pickedItemsTable.Columns["Price"].ReadOnly = true;
-        
         
         transactionTable.DataSource = new System.ComponentModel.BindingList<Item>();
         transactionTable.Columns["Category"].Visible = false;
@@ -97,7 +97,6 @@ public partial class Form1 : Form
             return;
         }
 
-        transactionTable = pickedItemsTable;
         backButton.Text = manager.OnComplete;
         pages.SelectedIndex = 3;
     }
