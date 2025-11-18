@@ -147,8 +147,16 @@ public static class Data
     {
         "Fruits", "Vegetables", "Meat", "Seafood", "Snacks", "Dairy", "Drinks", "Other", "Cooking", "Household", "Personal Care"
     };
+    static List<Transaction> Transactions = new List<Transaction>();
+    public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
+    public static List<Transaction> getTransactions() => Transactions;
 }
-
+public class Transaction(DateTime date, decimal amount, string mode)
+{
+    private string Mode = mode;
+    DateTime Date = date;
+    decimal Amount = amount;
+}
 public class Item(string name, decimal price, int code, string category, int quantity = 0)
 {
     public string Name { get; init; } = name;
@@ -157,8 +165,6 @@ public class Item(string name, decimal price, int code, string category, int qua
     public int Code { get; init; } = code;
     public int Quantity { get; set; } = quantity;
 }
-
-
 static class Program
 {
     [STAThread]

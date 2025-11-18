@@ -29,15 +29,25 @@ public partial class Form1 : Form
         transactionTable.Columns["Code"].Visible = false;
         transactionTable.Columns["Name"].ReadOnly = true;
         transactionTable.Columns["Price"].ReadOnly = true;
+
+        adressLabel.Text = "Adress:\n" + Data.Adress;
     }
     private void proceedButton_Click(object sender, EventArgs e)
     {
         if (!cardCheckbox.Checked)
         {
+            if (!Data.Cash) 
+            { MessageBox.Show("Machine cannot accept cash", "Error"); return; }
+            
             if (!deliveryCheckbox.Checked)
                 manager = wholesaleCheckbox.Checked ? new CashWholesale() : new CashRetail();
             else
+            {
+                if (!Data.Online || !Data.Delivery || !Data.CashOnDelivery) {
+                    MessageBox.Show("Online delivery order is not supported", "Error");
+                }
                 manager = wholesaleCheckbox.Checked ? new DeliveryWholesale() : new DeliveryRetail();
+            }
         }
         else
             manager = wholesaleCheckbox.Checked ? new CardWholesale() : new CardRetail();
@@ -87,12 +97,12 @@ public partial class Form1 : Form
     }
     private void itemsProceed_Click(object sender, EventArgs e)
     {
-        if (manager.ValidQuantity) pages.SelectedIndex = 2;
+        if (manager.ValidQuantity()) pages.SelectedIndex = 2;
         else MessageBox.Show("Invalid quantity", "Error");
     }
     private void transactionProceedButton_Click(object sender, EventArgs e) 
     {
-        if (!manager.ValidTransaction) {
+        if (!manager.ValidTransaction()) {
             MessageBox.Show("Invalid transaction", "Error");
             return;
         }
@@ -102,14 +112,14 @@ public partial class Form1 : Form
     }
     private void transactionBackButton_Click(object sender, EventArgs e)
     {
-        manager.ClearProperties();
+        manager.ClearProperties(true);
         Update();
         pages.SelectedIndex = 1;
     }
     private void backButton_Click(object sender, EventArgs e)
     {
         transactionLayout.Controls.Remove(manager.Layout);
-        manager.ClearProperties(true);
+        manager.ClearProperties(true, true);
         wholesaleCheckbox.Checked = false;
         cardCheckbox.Checked = false;
         deliveryCheckbox.Checked = false;
@@ -126,4 +136,5 @@ public partial class Form1 : Form
     }
     private void transactionTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellDoubleClick(sender, e);
     private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
+    private void adminButton_Click(object sender, EventArgs e) => pages.SelectedIndex = 4;
 }

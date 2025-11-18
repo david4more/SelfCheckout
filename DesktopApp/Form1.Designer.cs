@@ -38,6 +38,7 @@ partial class Form1
         wholesaleCheckbox = new System.Windows.Forms.CheckBox();
         cardCheckbox = new System.Windows.Forms.CheckBox();
         label2 = new System.Windows.Forms.Label();
+        adressLabel = new System.Windows.Forms.Label();
         items = new System.Windows.Forms.TabPage();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
         itemsTable = new System.Windows.Forms.DataGridView();
@@ -53,6 +54,8 @@ partial class Form1
         transactionProceedButton = new System.Windows.Forms.Button();
         complete = new System.Windows.Forms.TabPage();
         backButton = new System.Windows.Forms.Button();
+        adminButton = new System.Windows.Forms.Button();
+        admin = new System.Windows.Forms.TabPage();
         pages.SuspendLayout();
         main.SuspendLayout();
         mainLayout.SuspendLayout();
@@ -78,6 +81,7 @@ partial class Form1
         pages.Controls.Add(items);
         pages.Controls.Add(checkout);
         pages.Controls.Add(complete);
+        pages.Controls.Add(admin);
         pages.Dock = System.Windows.Forms.DockStyle.Fill;
         pages.Location = new System.Drawing.Point(0, 0);
         pages.Name = "pages";
@@ -106,6 +110,8 @@ partial class Form1
         mainLayout.Controls.Add(label1, 1, 0);
         mainLayout.Controls.Add(tableLayoutPanel1, 1, 1);
         mainLayout.Controls.Add(label2, 2, 0);
+        mainLayout.Controls.Add(adressLabel, 0, 0);
+        mainLayout.Controls.Add(adminButton, 2, 2);
         mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
         mainLayout.Location = new System.Drawing.Point(3, 3);
         mainLayout.Name = "mainLayout";
@@ -194,6 +200,17 @@ partial class Form1
         label2.Size = new System.Drawing.Size(204, 78);
         label2.TabIndex = 6;
         label2.Text = "Card payment on delivery is not supported\r\n";
+        // 
+        // adressLabel
+        // 
+        adressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+        adressLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)));
+        adressLabel.Location = new System.Drawing.Point(30, 30);
+        adressLabel.Margin = new System.Windows.Forms.Padding(30);
+        adressLabel.Name = "adressLabel";
+        adressLabel.Size = new System.Drawing.Size(201, 78);
+        adressLabel.TabIndex = 7;
+        adressLabel.Text = "Adress:\r\n";
         // 
         // items
         // 
@@ -400,6 +417,28 @@ partial class Form1
         backButton.UseVisualStyleBackColor = true;
         backButton.Click += backButton_Click;
         // 
+        // adminButton
+        // 
+        adminButton.Dock = System.Windows.Forms.DockStyle.Right;
+        adminButton.Location = new System.Drawing.Point(677, 306);
+        adminButton.Margin = new System.Windows.Forms.Padding(30);
+        adminButton.Name = "adminButton";
+        adminButton.Size = new System.Drawing.Size(79, 80);
+        adminButton.TabIndex = 8;
+        adminButton.Text = "Admin";
+        adminButton.UseVisualStyleBackColor = true;
+        adminButton.Click += adminButton_Click;
+        // 
+        // admin
+        // 
+        admin.Location = new System.Drawing.Point(4, 24);
+        admin.Name = "admin";
+        admin.Padding = new System.Windows.Forms.Padding(3);
+        admin.Size = new System.Drawing.Size(792, 422);
+        admin.TabIndex = 4;
+        admin.Text = "admin";
+        admin.UseVisualStyleBackColor = true;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -426,6 +465,12 @@ partial class Form1
         complete.ResumeLayout(false);
         ResumeLayout(false);
     }
+
+    private System.Windows.Forms.TabPage admin;
+
+    private System.Windows.Forms.Button adminButton;
+
+    private System.Windows.Forms.Label adressLabel;
 
     private System.Windows.Forms.Button backButton;
 
