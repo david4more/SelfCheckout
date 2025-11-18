@@ -31,6 +31,14 @@ public partial class Form1 : Form
         transactionTable.Columns["Price"].ReadOnly = true;
 
         adressLabel.Text = "Adress:\n" + Data.Adress;
+        
+        
+        cashCheckbox.Checked = Data.Cash;
+        courierDeliveryCheckbox.Checked = Data.Delivery;
+        cashOnDeliveryCheckbox.Checked = Data.CashOnDelivery;
+        onlineCheckbox.Checked = Data.Online;
+
+        adminTable.DataSource = new List<Transaction>();
     }
     private void proceedButton_Click(object sender, EventArgs e)
     {
@@ -43,9 +51,9 @@ public partial class Form1 : Form
                 manager = wholesaleCheckbox.Checked ? new CashWholesale() : new CashRetail();
             else
             {
-                if (!Data.Online || !Data.Delivery || !Data.CashOnDelivery) {
-                    MessageBox.Show("Online delivery order is not supported", "Error");
-                }
+                if (!Data.Online || !Data.Delivery || !Data.CashOnDelivery) 
+                { MessageBox.Show("Online delivery order is not supported", "Error"); return; }
+                
                 manager = wholesaleCheckbox.Checked ? new DeliveryWholesale() : new DeliveryRetail();
             }
         }
@@ -97,12 +105,12 @@ public partial class Form1 : Form
     }
     private void itemsProceed_Click(object sender, EventArgs e)
     {
-        if (manager.ValidQuantity()) pages.SelectedIndex = 2;
+        if (manager.ValidQuantity) pages.SelectedIndex = 2;
         else MessageBox.Show("Invalid quantity", "Error");
     }
     private void transactionProceedButton_Click(object sender, EventArgs e) 
     {
-        if (!manager.ValidTransaction()) {
+        if (!manager.ValidTransaction) {
             MessageBox.Show("Invalid transaction", "Error");
             return;
         }
@@ -136,5 +144,19 @@ public partial class Form1 : Form
     }
     private void transactionTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellDoubleClick(sender, e);
     private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
-    private void adminButton_Click(object sender, EventArgs e) => pages.SelectedIndex = 4;
+    private void adminButton_Click(object sender, EventArgs e)
+    {
+        foreach (var a in Data.getTransactions()) Console.WriteLine(a.Amount);
+        adminTable.DataSource = null;
+        adminTable.DataSource = Data.getTransactions();
+        pages.SelectedIndex = 4;
+    }
+    private void backFromAdminButton_Click(object sender, EventArgs e)
+    {
+        Data.Cash = cashCheckbox.Checked;
+        Data.Delivery = courierDeliveryCheckbox.Checked;
+        Data.CashOnDelivery = cashOnDeliveryCheckbox.Checked;
+        Data.Online = onlineCheckbox.Checked;
+        pages.SelectedIndex = 0;
+    }
 }

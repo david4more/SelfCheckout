@@ -4,7 +4,7 @@ using System.ComponentModel;
 public abstract class CheckoutBase
 {
     protected decimal _Amount = 0;
-    protected BindingList<Item> _Items = new BindingList<Item>();
+    private BindingList<Item> _Items = new BindingList<Item>();
     protected TableLayoutPanel _Layout = new TableLayoutPanel() { Dock = DockStyle.Fill };
     public event EventHandler? UpdateUi;
     protected void Update() => UpdateUi?.Invoke(this, EventArgs.Empty);
@@ -45,20 +45,17 @@ public abstract class CheckoutBase
     {
         if (items) _Items.Clear();
         if (ui) UpdateUi = null;
+        _Amount = 0;
     }
     protected virtual decimal Sum => ItemsSum;
     protected decimal ItemsSum  => _Items.Sum(i => i.Price * i.Quantity);
-    public bool ValidQuantity() => _Items.Count != 0;
+    public bool ValidQuantity => _Items.Count != 0;
     public decimal Price => Math.Round(Sum, 2);
     public virtual int DefaultQuantity => 0;
-    public virtual bool ValidTransaction()
-    {
-        bool valid = (Price <= _Amount);
-        if (valid) Data.addTransaction(new Transaction(DateTime.Now, Price, Name));
-        return valid;
-    }
+    public virtual bool ValidTransaction => Price <= _Amount;
     public virtual string Name => "Base";
-    public string OnComplete => ValidTransaction() ? CompleteText : "Invalid Transaction";
+    public void LogTransaction() => Data.addTransaction(new Transaction(DateTime.Now, Price, Name));
+    public string OnComplete => ValidTransaction ? CompleteText : "Invalid Transaction";
     protected virtual string CompleteText => "Complete";
 }
 public class CardRetail : CheckoutBase
@@ -83,7 +80,8 @@ public class CardRetail : CheckoutBase
         pay.Click += (s, e) =>
         {
             if (paid == true) { pay.Text = "Already Paid"; return; }
-            paid = true; pay.Text = "Success"; totalPurchased += Price; Update();
+            paid = true; pay.Text = "Success"; 
+            LogTransaction(); totalPurchased += Price; Update();
         };
 
         for (int i = 0; i < 3; i++)
@@ -102,18 +100,13 @@ public class CardRetail : CheckoutBase
         delivery.Checked = false;
     }
     protected override decimal Sum => ItemsSum * (_LoyaltyCard ? 0.95m : 1) + (_Delivery ? 250m : 0);
-    public override bool ValidTransaction()
-    {
-        if (paid) Data.addTransaction(new Transaction(DateTime.Now, Price, Name));
-        return paid;
-    }
+    public override bool ValidTransaction => paid;
     public override int DefaultQuantity => 1;
     public override string Name => "Card Retail";
     protected override string CompleteText => "Transaction complete - " + totalPurchased + " UAH\nHave a nice day!";
 }
 public class CashRetail : CheckoutBase
 {
-    private decimal _Amount = 0;
     protected bool _LoyaltyCard = false;
     protected bool _Delivery = false;
     private NumericUpDown paidAmount;
@@ -141,13 +134,12 @@ public class CashRetail : CheckoutBase
     }
     public override void ClearProperties(bool items = false, bool ui = false)
     {
+        if (items && ui) LogTransaction();
         base.ClearProperties(items, ui);
-        _Amount = 0;
         loyaltyCard.Checked = false;
         delivery.Checked = false;
     }
     protected override decimal Sum => ItemsSum * (_LoyaltyCard ? 0.95m : 1) + (_Delivery ? 250m : 0);
-    public override bool ValidTransaction() => (Price <= _Amount);
     public override int DefaultQuantity => 1;
     public override string Name => "Cash Retail";
     public decimal Change => _Amount - Price;
@@ -155,7 +147,6 @@ public class CashRetail : CheckoutBase
 }
 public class DeliveryRetail : CheckoutBase
 {
-    private decimal _Amount = 0;
     private NumericUpDown presentAmount;
     private Label delivery;
     protected virtual string deliveryText => "Your items will be delivered by courier (+250).\n" +
@@ -176,11 +167,10 @@ public class DeliveryRetail : CheckoutBase
     }
     public override void ClearProperties(bool items = false, bool ui = false)
     {
+        if (items && ui) LogTransaction();
         base.ClearProperties(items, ui);
-        _Amount = 0;
     }
     protected override decimal Sum => ItemsSum + 250m;
-    public override bool ValidTransaction() => (Price <= _Amount);
     public override int DefaultQuantity => 1;
     public override string Name => "Delivery Retail";
     public decimal Change => _Amount - Price;
@@ -192,6 +182,7 @@ public class CashWholesale : CashRetail
     protected override string deliveryText => "Do you want your items to be delivered by courier? (+50)";
     protected override decimal Sum => ItemsSum * (_LoyaltyCard ? 0.92m : 1) + (_Delivery ? 50m : 0);
     public override int DefaultQuantity => 30;
+    public override string Name => "Cash Wholesale";
 }
 public class CardWholesale : CardRetail
 {
@@ -199,6 +190,7 @@ public class CardWholesale : CardRetail
     protected override string deliveryText => "Do you want your items to be delivered by courier? (+50)";
     protected override decimal Sum => ItemsSum * (_LoyaltyCard ? 0.92m : 1) + (_Delivery ? 50m : 0);
     public override int DefaultQuantity => 30;
+    public override string Name => "Card Wholesale";
 }
 public class DeliveryWholesale : DeliveryRetail
 {
@@ -206,4 +198,5 @@ public class DeliveryWholesale : DeliveryRetail
                                              "Enter, how much cash will you give to courier: ";
     protected override decimal Sum => ItemsSum;
     public override int DefaultQuantity => 50;
+    public override string Name => "Delivery Wholesale";
 }

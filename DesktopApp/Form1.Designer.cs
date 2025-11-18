@@ -39,6 +39,7 @@ partial class Form1
         cardCheckbox = new System.Windows.Forms.CheckBox();
         label2 = new System.Windows.Forms.Label();
         adressLabel = new System.Windows.Forms.Label();
+        adminButton = new System.Windows.Forms.Button();
         items = new System.Windows.Forms.TabPage();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
         itemsTable = new System.Windows.Forms.DataGridView();
@@ -54,8 +55,16 @@ partial class Form1
         transactionProceedButton = new System.Windows.Forms.Button();
         complete = new System.Windows.Forms.TabPage();
         backButton = new System.Windows.Forms.Button();
-        adminButton = new System.Windows.Forms.Button();
         admin = new System.Windows.Forms.TabPage();
+        tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+        backFromAdminButton = new System.Windows.Forms.Button();
+        tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+        cashCheckbox = new System.Windows.Forms.CheckBox();
+        onlineCheckbox = new System.Windows.Forms.CheckBox();
+        courierDeliveryCheckbox = new System.Windows.Forms.CheckBox();
+        cashOnDeliveryCheckbox = new System.Windows.Forms.CheckBox();
+        label3 = new System.Windows.Forms.Label();
+        adminTable = new System.Windows.Forms.DataGridView();
         pages.SuspendLayout();
         main.SuspendLayout();
         mainLayout.SuspendLayout();
@@ -73,6 +82,10 @@ partial class Form1
         tableLayoutPanel2.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)transactionTable).BeginInit();
         complete.SuspendLayout();
+        admin.SuspendLayout();
+        tableLayoutPanel3.SuspendLayout();
+        tableLayoutPanel4.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)adminTable).BeginInit();
         SuspendLayout();
         // 
         // pages
@@ -211,6 +224,18 @@ partial class Form1
         adressLabel.Size = new System.Drawing.Size(201, 78);
         adressLabel.TabIndex = 7;
         adressLabel.Text = "Adress:\r\n";
+        // 
+        // adminButton
+        // 
+        adminButton.Dock = System.Windows.Forms.DockStyle.Right;
+        adminButton.Location = new System.Drawing.Point(676, 306);
+        adminButton.Margin = new System.Windows.Forms.Padding(30);
+        adminButton.Name = "adminButton";
+        adminButton.Size = new System.Drawing.Size(80, 80);
+        adminButton.TabIndex = 8;
+        adminButton.Text = "Admin";
+        adminButton.UseVisualStyleBackColor = true;
+        adminButton.Click += adminButton_Click;
         // 
         // items
         // 
@@ -417,20 +442,9 @@ partial class Form1
         backButton.UseVisualStyleBackColor = true;
         backButton.Click += backButton_Click;
         // 
-        // adminButton
-        // 
-        adminButton.Dock = System.Windows.Forms.DockStyle.Right;
-        adminButton.Location = new System.Drawing.Point(677, 306);
-        adminButton.Margin = new System.Windows.Forms.Padding(30);
-        adminButton.Name = "adminButton";
-        adminButton.Size = new System.Drawing.Size(79, 80);
-        adminButton.TabIndex = 8;
-        adminButton.Text = "Admin";
-        adminButton.UseVisualStyleBackColor = true;
-        adminButton.Click += adminButton_Click;
-        // 
         // admin
         // 
+        admin.Controls.Add(tableLayoutPanel3);
         admin.Location = new System.Drawing.Point(4, 24);
         admin.Name = "admin";
         admin.Padding = new System.Windows.Forms.Padding(3);
@@ -438,6 +452,124 @@ partial class Form1
         admin.TabIndex = 4;
         admin.Text = "admin";
         admin.UseVisualStyleBackColor = true;
+        // 
+        // tableLayoutPanel3
+        // 
+        tableLayoutPanel3.ColumnCount = 3;
+        tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.Controls.Add(backFromAdminButton, 2, 2);
+        tableLayoutPanel3.Controls.Add(tableLayoutPanel4, 1, 1);
+        tableLayoutPanel3.Controls.Add(label3, 1, 0);
+        tableLayoutPanel3.Controls.Add(adminTable, 2, 1);
+        tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+        tableLayoutPanel3.Name = "tableLayoutPanel3";
+        tableLayoutPanel3.RowCount = 3;
+        tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel3.Size = new System.Drawing.Size(786, 416);
+        tableLayoutPanel3.TabIndex = 0;
+        // 
+        // backFromAdminButton
+        // 
+        backFromAdminButton.Dock = System.Windows.Forms.DockStyle.Right;
+        backFromAdminButton.Location = new System.Drawing.Point(676, 306);
+        backFromAdminButton.Margin = new System.Windows.Forms.Padding(30);
+        backFromAdminButton.Name = "backFromAdminButton";
+        backFromAdminButton.Size = new System.Drawing.Size(80, 80);
+        backFromAdminButton.TabIndex = 0;
+        backFromAdminButton.Text = "Back";
+        backFromAdminButton.UseVisualStyleBackColor = true;
+        backFromAdminButton.Click += backFromAdminButton_Click;
+        // 
+        // tableLayoutPanel4
+        // 
+        tableLayoutPanel4.ColumnCount = 1;
+        tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tableLayoutPanel4.Controls.Add(cashCheckbox, 0, 0);
+        tableLayoutPanel4.Controls.Add(onlineCheckbox, 0, 1);
+        tableLayoutPanel4.Controls.Add(courierDeliveryCheckbox, 0, 2);
+        tableLayoutPanel4.Controls.Add(cashOnDeliveryCheckbox, 0, 3);
+        tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableLayoutPanel4.Location = new System.Drawing.Point(264, 141);
+        tableLayoutPanel4.Name = "tableLayoutPanel4";
+        tableLayoutPanel4.RowCount = 4;
+        tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+        tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+        tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+        tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+        tableLayoutPanel4.Size = new System.Drawing.Size(255, 132);
+        tableLayoutPanel4.TabIndex = 1;
+        // 
+        // cashCheckbox
+        // 
+        cashCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        cashCheckbox.Location = new System.Drawing.Point(3, 3);
+        cashCheckbox.Name = "cashCheckbox";
+        cashCheckbox.Size = new System.Drawing.Size(249, 27);
+        cashCheckbox.TabIndex = 0;
+        cashCheckbox.Text = "Cash";
+        cashCheckbox.UseVisualStyleBackColor = true;
+        // 
+        // onlineCheckbox
+        // 
+        onlineCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        onlineCheckbox.Location = new System.Drawing.Point(3, 36);
+        onlineCheckbox.Name = "onlineCheckbox";
+        onlineCheckbox.Size = new System.Drawing.Size(249, 27);
+        onlineCheckbox.TabIndex = 1;
+        onlineCheckbox.Text = "Online";
+        onlineCheckbox.UseVisualStyleBackColor = true;
+        // 
+        // courierDeliveryCheckbox
+        // 
+        courierDeliveryCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        courierDeliveryCheckbox.Location = new System.Drawing.Point(3, 69);
+        courierDeliveryCheckbox.Name = "courierDeliveryCheckbox";
+        courierDeliveryCheckbox.Size = new System.Drawing.Size(249, 27);
+        courierDeliveryCheckbox.TabIndex = 2;
+        courierDeliveryCheckbox.Text = "Delivery";
+        courierDeliveryCheckbox.UseVisualStyleBackColor = true;
+        // 
+        // cashOnDeliveryCheckbox
+        // 
+        cashOnDeliveryCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
+        cashOnDeliveryCheckbox.Location = new System.Drawing.Point(3, 102);
+        cashOnDeliveryCheckbox.Name = "cashOnDeliveryCheckbox";
+        cashOnDeliveryCheckbox.Size = new System.Drawing.Size(249, 27);
+        cashOnDeliveryCheckbox.TabIndex = 3;
+        cashOnDeliveryCheckbox.Text = "Cash on delivery";
+        cashOnDeliveryCheckbox.UseVisualStyleBackColor = true;
+        // 
+        // label3
+        // 
+        label3.Dock = System.Windows.Forms.DockStyle.Fill;
+        label3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)));
+        label3.Location = new System.Drawing.Point(291, 30);
+        label3.Margin = new System.Windows.Forms.Padding(30);
+        label3.Name = "label3";
+        label3.Size = new System.Drawing.Size(201, 78);
+        label3.TabIndex = 2;
+        label3.Text = "Control panel\r\n";
+        // 
+        // adminTable
+        // 
+        adminTable.AllowUserToAddRows = false;
+        adminTable.AllowUserToDeleteRows = false;
+        adminTable.AllowUserToResizeRows = false;
+        adminTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        adminTable.Dock = System.Windows.Forms.DockStyle.Fill;
+        adminTable.Location = new System.Drawing.Point(525, 141);
+        adminTable.Name = "adminTable";
+        adminTable.ReadOnly = true;
+        adminTable.RowHeadersVisible = false;
+        adminTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        adminTable.Size = new System.Drawing.Size(258, 132);
+        adminTable.TabIndex = 3;
+        adminTable.Text = "dataGridView1";
         // 
         // Form1
         // 
@@ -463,8 +595,27 @@ partial class Form1
         tableLayoutPanel2.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)transactionTable).EndInit();
         complete.ResumeLayout(false);
+        admin.ResumeLayout(false);
+        tableLayoutPanel3.ResumeLayout(false);
+        tableLayoutPanel4.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)adminTable).EndInit();
         ResumeLayout(false);
     }
+
+    private System.Windows.Forms.DataGridView adminTable;
+
+    private System.Windows.Forms.Label label3;
+
+    private System.Windows.Forms.CheckBox cashCheckbox;
+    private System.Windows.Forms.CheckBox onlineCheckbox;
+    private System.Windows.Forms.CheckBox courierDeliveryCheckbox;
+    private System.Windows.Forms.CheckBox cashOnDeliveryCheckbox;
+
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+
+    private System.Windows.Forms.Button backFromAdminButton;
+
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
 
     private System.Windows.Forms.TabPage admin;
 

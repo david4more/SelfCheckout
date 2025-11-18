@@ -142,20 +142,20 @@ public static class Data
         new Item("Shaving Foam 200 ml", 140.99m, 918274, "Personal Care"),
         new Item("Face Cream 50 ml", 199.99m, 581294, "Personal Care")
     };
-    
     public static List<String> Categories = new List<String>
     {
         "Fruits", "Vegetables", "Meat", "Seafood", "Snacks", "Dairy", "Drinks", "Other", "Cooking", "Household", "Personal Care"
     };
+    
     static List<Transaction> Transactions = new List<Transaction>();
     public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
     public static List<Transaction> getTransactions() => Transactions;
 }
 public class Transaction(DateTime date, decimal amount, string mode)
 {
-    private string Mode = mode;
-    DateTime Date = date;
-    decimal Amount = amount;
+    public string Mode { get; init; } = mode;
+    public DateTime Date { get; init; } = date;
+    public decimal Amount { get; init; } = amount;
 }
 public class Item(string name, decimal price, int code, string category, int quantity = 0)
 {
