@@ -5,13 +5,13 @@ namespace DesktopApp;
 public static class Supermarket
 {
     public static string name = "Le Silpo";
+    public static string Adress = "21 Jump Street";
+    public static string JuridicalNumber = "70176892";
     public static bool Cash = true;
     public static bool Online = true;
     public static bool Delivery = true;
     public static bool CashOnDelivery = true;
-    public static string Adress = "21 Jump Street";
-    public static string JuridicalNumber = "hehe";
-    public static Dictionary<string, CheckoutBase> Checkouts;
+    public static Dictionary<string, CheckoutBase> Checkouts = new Dictionary<string, CheckoutBase>();
     static List<Transaction> Transactions = new List<Transaction>();
 
     public static void SaveToFile() { }
