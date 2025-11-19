@@ -25,7 +25,7 @@ public abstract class CheckoutBase
             return;
         }
 
-        var masterItem = Data.Items.FirstOrDefault(i => i.Code == code);
+        var masterItem = Supermarket.Items.FirstOrDefault(i => i.Code == code);
         if (masterItem == null) return;
 
         if (set)
@@ -54,7 +54,7 @@ public abstract class CheckoutBase
     public virtual int DefaultQuantity => 0;
     public virtual bool ValidTransaction => Price <= _Amount;
     public virtual string Name => "Base";
-    public void LogTransaction() => Data.addTransaction(new Transaction(DateTime.Now, Price, Name));
+    public void LogTransaction() => Supermarket.addTransaction(new Transaction(DateTime.Now, Price, Name));
     public string OnComplete => ValidTransaction ? CompleteText : "Invalid Transaction";
     protected virtual string CompleteText => "Complete";
 }

@@ -2,14 +2,31 @@ using System.ComponentModel;
 
 namespace DesktopApp;
 
-public static class Data
+public static class Supermarket
 {
+    public static string name = "Le Silpo";
     public static bool Cash = true;
     public static bool Online = true;
     public static bool Delivery = true;
     public static bool CashOnDelivery = true;
     public static string Adress = "21 Jump Street";
+    public static string JuridicalNumber = "hehe";
+    public static Dictionary<string, CheckoutBase> Checkouts;
+    static List<Transaction> Transactions = new List<Transaction>();
+
+    public static void SaveToFile() { }
+    public static void LoadFromFile() { }
+    public static void SaveTransactions() { }
+    public static void AddCheckout(CheckoutBase checkout) => Checkouts.TryAdd(checkout.Name, checkout);
+    public static void DeleteCheckout(string name) => Checkouts.Remove(name);
+    public static void AddItem(Item item) => Items.Add(item);
+    public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
+    public static List<Transaction> getTransactions() => Transactions;
     
+    public static List<String> Categories = new List<String>
+    {
+        "Fruits", "Vegetables", "Meat", "Seafood", "Snacks", "Dairy", "Drinks", "Other", "Cooking", "Household", "Personal Care"
+    };
     public static List<Item> Items = new List<Item>
     {
         // Fruits
@@ -142,14 +159,6 @@ public static class Data
         new Item("Shaving Foam 200 ml", 140.99m, 918274, "Personal Care"),
         new Item("Face Cream 50 ml", 199.99m, 581294, "Personal Care")
     };
-    public static List<String> Categories = new List<String>
-    {
-        "Fruits", "Vegetables", "Meat", "Seafood", "Snacks", "Dairy", "Drinks", "Other", "Cooking", "Household", "Personal Care"
-    };
-    
-    static List<Transaction> Transactions = new List<Transaction>();
-    public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
-    public static List<Transaction> getTransactions() => Transactions;
 }
 public class Transaction(DateTime date, decimal amount, string mode)
 {
@@ -171,7 +180,7 @@ static class Program
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
+        Application.Run(new Checkout());
 
         
     }

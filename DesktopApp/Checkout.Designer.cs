@@ -1,6 +1,6 @@
 ﻿namespace DesktopApp;
 
-partial class Form1
+partial class Checkout
 {
     /// <summary>
     ///  Required designer variable.

@@ -1,18 +1,18 @@
 namespace DesktopApp;
 
-public partial class Form1 : Form
+public partial class Checkout : Form
 {
     CheckoutBase manager;
 
-    public Form1()
+    public Checkout()
     {
         InitializeComponent();
 
-        itemsTable.DataSource = Data.Items;
+        itemsTable.DataSource = Supermarket.Items;
         itemsTable.Columns["Quantity"].Visible = false;
 
         categoryCombobox.Items.Add("All");
-        categoryCombobox.Items.AddRange(Data.Categories.ToArray());
+        categoryCombobox.Items.AddRange(Supermarket.Categories.ToArray());
         categoryCombobox.SelectedIndex = 0;
 
         cardCheckbox.Click += (s, e) => deliveryCheckbox.Checked = false;
@@ -30,13 +30,13 @@ public partial class Form1 : Form
         transactionTable.Columns["Name"].ReadOnly = true;
         transactionTable.Columns["Price"].ReadOnly = true;
 
-        adressLabel.Text = "Adress:\n" + Data.Adress;
+        adressLabel.Text = "Adress:\n" + Supermarket.Adress;
         
         
-        cashCheckbox.Checked = Data.Cash;
-        courierDeliveryCheckbox.Checked = Data.Delivery;
-        cashOnDeliveryCheckbox.Checked = Data.CashOnDelivery;
-        onlineCheckbox.Checked = Data.Online;
+        cashCheckbox.Checked = Supermarket.Cash;
+        courierDeliveryCheckbox.Checked = Supermarket.Delivery;
+        cashOnDeliveryCheckbox.Checked = Supermarket.CashOnDelivery;
+        onlineCheckbox.Checked = Supermarket.Online;
 
         adminTable.DataSource = new List<Transaction>();
     }
@@ -44,14 +44,14 @@ public partial class Form1 : Form
     {
         if (!cardCheckbox.Checked)
         {
-            if (!Data.Cash) 
+            if (!Supermarket.Cash) 
             { MessageBox.Show("Machine cannot accept cash", "Error"); return; }
             
             if (!deliveryCheckbox.Checked)
                 manager = wholesaleCheckbox.Checked ? new CashWholesale() : new CashRetail();
             else
             {
-                if (!Data.Online || !Data.Delivery || !Data.CashOnDelivery) 
+                if (!Supermarket.Online || !Supermarket.Delivery || !Supermarket.CashOnDelivery) 
                 { MessageBox.Show("Online delivery order is not supported", "Error"); return; }
                 
                 manager = wholesaleCheckbox.Checked ? new DeliveryWholesale() : new DeliveryRetail();
@@ -71,7 +71,7 @@ public partial class Form1 : Form
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
     {
         string cat = categoryCombobox.SelectedItem.ToString();
-        var filtered = (cat == "All") ? Data.Items : Data.Items.Where(c => c.Category == cat).ToList();
+        var filtered = (cat == "All") ? Supermarket.Items : Supermarket.Items.Where(c => c.Category == cat).ToList();
         itemsTable.DataSource = filtered;
     }
     private void itemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -146,17 +146,17 @@ public partial class Form1 : Form
     private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
     private void adminButton_Click(object sender, EventArgs e)
     {
-        foreach (var a in Data.getTransactions()) Console.WriteLine(a.Amount);
+        foreach (var a in Supermarket.getTransactions()) Console.WriteLine(a.Amount);
         adminTable.DataSource = null;
-        adminTable.DataSource = Data.getTransactions();
+        adminTable.DataSource = Supermarket.getTransactions();
         pages.SelectedIndex = 4;
     }
     private void backFromAdminButton_Click(object sender, EventArgs e)
     {
-        Data.Cash = cashCheckbox.Checked;
-        Data.Delivery = courierDeliveryCheckbox.Checked;
-        Data.CashOnDelivery = cashOnDeliveryCheckbox.Checked;
-        Data.Online = onlineCheckbox.Checked;
+        Supermarket.Cash = cashCheckbox.Checked;
+        Supermarket.Delivery = courierDeliveryCheckbox.Checked;
+        Supermarket.CashOnDelivery = cashOnDeliveryCheckbox.Checked;
+        Supermarket.Online = onlineCheckbox.Checked;
         pages.SelectedIndex = 0;
     }
 }
