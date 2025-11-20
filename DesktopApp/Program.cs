@@ -20,9 +20,9 @@ public static class Supermarket
     public static void AddCheckout(CheckoutBase checkout) => Checkouts.TryAdd(checkout.Name, checkout);
     public static void DeleteCheckout(string name) => Checkouts.Remove(name);
     public static void AddItem(Item item) => Items.Add(item);
+    public static void StockUp(int code, int quantity) => Items.First(i => i.Code == code).Quantity += quantity;
     public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
     public static List<Transaction> getTransactions() => Transactions;
-    
     public static List<String> Categories = new List<String>
     {
         "Fruits", "Vegetables", "Meat", "Seafood", "Snacks", "Dairy", "Drinks", "Other", "Cooking", "Household", "Personal Care"
@@ -180,8 +180,6 @@ static class Program
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new Checkout());
-
-        
+        Application.Run(new Machine());
     }
 }

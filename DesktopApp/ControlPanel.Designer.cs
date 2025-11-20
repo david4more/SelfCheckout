@@ -51,12 +51,12 @@ partial class ControlPanel
         adressLabel = new System.Windows.Forms.Label();
         nameLabel = new System.Windows.Forms.Label();
         tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-        numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-        numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-        numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-        textBox1 = new System.Windows.Forms.TextBox();
-        textBox2 = new System.Windows.Forms.TextBox();
-        button5 = new System.Windows.Forms.Button();
+        itemPrice = new System.Windows.Forms.NumericUpDown();
+        itemCode = new System.Windows.Forms.NumericUpDown();
+        itemQuantity = new System.Windows.Forms.NumericUpDown();
+        itemName = new System.Windows.Forms.TextBox();
+        itemCategory = new System.Windows.Forms.TextBox();
+        itemAdd = new System.Windows.Forms.Button();
         tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
         deleteCombobox = new System.Windows.Forms.ComboBox();
         deleteButton = new System.Windows.Forms.Button();
@@ -66,9 +66,9 @@ partial class ControlPanel
         tableLayoutPanel2.SuspendLayout();
         tableLayoutPanel5.SuspendLayout();
         tableLayoutPanel6.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)itemPrice).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)itemCode).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)itemQuantity).BeginInit();
         tableLayoutPanel7.SuspendLayout();
         SuspendLayout();
         // 
@@ -328,12 +328,12 @@ partial class ControlPanel
         tableLayoutPanel6.ColumnCount = 1;
         tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
         tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tableLayoutPanel6.Controls.Add(numericUpDown1, 0, 1);
-        tableLayoutPanel6.Controls.Add(numericUpDown2, 0, 2);
-        tableLayoutPanel6.Controls.Add(numericUpDown3, 0, 4);
-        tableLayoutPanel6.Controls.Add(textBox1, 0, 0);
-        tableLayoutPanel6.Controls.Add(textBox2, 0, 3);
-        tableLayoutPanel6.Controls.Add(button5, 0, 5);
+        tableLayoutPanel6.Controls.Add(itemPrice, 0, 1);
+        tableLayoutPanel6.Controls.Add(itemCode, 0, 2);
+        tableLayoutPanel6.Controls.Add(itemQuantity, 0, 4);
+        tableLayoutPanel6.Controls.Add(itemName, 0, 0);
+        tableLayoutPanel6.Controls.Add(itemCategory, 0, 1);
+        tableLayoutPanel6.Controls.Add(itemAdd, 0, 5);
         tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel6.Location = new System.Drawing.Point(276, 10);
         tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(10);
@@ -348,50 +348,67 @@ partial class ControlPanel
         tableLayoutPanel6.Size = new System.Drawing.Size(246, 205);
         tableLayoutPanel6.TabIndex = 6;
         // 
-        // numericUpDown1
+        // itemPrice
         // 
-        numericUpDown1.Location = new System.Drawing.Point(3, 37);
-        numericUpDown1.Name = "numericUpDown1";
-        numericUpDown1.Size = new System.Drawing.Size(168, 23);
-        numericUpDown1.TabIndex = 0;
+        itemPrice.DecimalPlaces = 2;
+        itemPrice.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemPrice.Location = new System.Drawing.Point(3, 71);
+        itemPrice.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+        itemPrice.Name = "itemPrice";
+        itemPrice.Size = new System.Drawing.Size(240, 23);
+        itemPrice.TabIndex = 0;
         // 
-        // numericUpDown2
+        // itemCode
         // 
-        numericUpDown2.Location = new System.Drawing.Point(3, 71);
-        numericUpDown2.Name = "numericUpDown2";
-        numericUpDown2.Size = new System.Drawing.Size(168, 23);
-        numericUpDown2.TabIndex = 1;
+        itemCode.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemCode.Location = new System.Drawing.Point(3, 105);
+        itemCode.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+        itemCode.Minimum = new decimal(new int[] { 100000, 0, 0, 0 });
+        itemCode.Name = "itemCode";
+        itemCode.Size = new System.Drawing.Size(240, 23);
+        itemCode.TabIndex = 1;
+        itemCode.Value = new decimal(new int[] { 100000, 0, 0, 0 });
         // 
-        // numericUpDown3
+        // itemQuantity
         // 
-        numericUpDown3.Location = new System.Drawing.Point(3, 139);
-        numericUpDown3.Name = "numericUpDown3";
-        numericUpDown3.Size = new System.Drawing.Size(177, 23);
-        numericUpDown3.TabIndex = 2;
+        itemQuantity.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemQuantity.Location = new System.Drawing.Point(3, 139);
+        itemQuantity.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+        itemQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+        itemQuantity.Name = "itemQuantity";
+        itemQuantity.Size = new System.Drawing.Size(240, 23);
+        itemQuantity.TabIndex = 2;
+        itemQuantity.Tag = "";
+        itemQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
         // 
-        // textBox1
+        // itemName
         // 
-        textBox1.Location = new System.Drawing.Point(3, 3);
-        textBox1.Name = "textBox1";
-        textBox1.Size = new System.Drawing.Size(156, 23);
-        textBox1.TabIndex = 3;
+        itemName.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemName.Location = new System.Drawing.Point(3, 3);
+        itemName.Name = "itemName";
+        itemName.PlaceholderText = "Name";
+        itemName.Size = new System.Drawing.Size(240, 23);
+        itemName.TabIndex = 3;
         // 
-        // textBox2
+        // itemCategory
         // 
-        textBox2.Location = new System.Drawing.Point(3, 105);
-        textBox2.Name = "textBox2";
-        textBox2.Size = new System.Drawing.Size(174, 23);
-        textBox2.TabIndex = 4;
+        itemCategory.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemCategory.Location = new System.Drawing.Point(3, 37);
+        itemCategory.Name = "itemCategory";
+        itemCategory.PlaceholderText = "Category, below - price, code, quantity";
+        itemCategory.Size = new System.Drawing.Size(240, 23);
+        itemCategory.TabIndex = 4;
         // 
-        // button5
+        // itemAdd
         // 
-        button5.Dock = System.Windows.Forms.DockStyle.Fill;
-        button5.Location = new System.Drawing.Point(3, 173);
-        button5.Name = "button5";
-        button5.Size = new System.Drawing.Size(240, 29);
-        button5.TabIndex = 5;
-        button5.Text = "Add Item";
-        button5.UseVisualStyleBackColor = true;
+        itemAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+        itemAdd.Location = new System.Drawing.Point(3, 173);
+        itemAdd.Name = "itemAdd";
+        itemAdd.Size = new System.Drawing.Size(240, 29);
+        itemAdd.TabIndex = 5;
+        itemAdd.Text = "Add Item";
+        itemAdd.UseVisualStyleBackColor = true;
+        itemAdd.Click += itemAdd_Click;
         // 
         // tableLayoutPanel7
         // 
@@ -445,9 +462,9 @@ partial class ControlPanel
         tableLayoutPanel5.ResumeLayout(false);
         tableLayoutPanel6.ResumeLayout(false);
         tableLayoutPanel6.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-        ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
+        ((System.ComponentModel.ISupportInitialize)itemPrice).EndInit();
+        ((System.ComponentModel.ISupportInitialize)itemCode).EndInit();
+        ((System.ComponentModel.ISupportInitialize)itemQuantity).EndInit();
         tableLayoutPanel7.ResumeLayout(false);
         ResumeLayout(false);
     }
@@ -455,12 +472,12 @@ partial class ControlPanel
     private System.Windows.Forms.ComboBox deleteCombobox;
     private System.Windows.Forms.Button deleteButton;
 
-    private System.Windows.Forms.NumericUpDown numericUpDown1;
-    private System.Windows.Forms.NumericUpDown numericUpDown2;
-    private System.Windows.Forms.NumericUpDown numericUpDown3;
-    private System.Windows.Forms.TextBox textBox1;
-    private System.Windows.Forms.TextBox textBox2;
-    private System.Windows.Forms.Button button5;
+    private System.Windows.Forms.NumericUpDown itemPrice;
+    private System.Windows.Forms.NumericUpDown itemCode;
+    private System.Windows.Forms.NumericUpDown itemQuantity;
+    private System.Windows.Forms.TextBox itemName;
+    private System.Windows.Forms.TextBox itemCategory;
+    private System.Windows.Forms.Button itemAdd;
 
     private System.Windows.Forms.CheckBox onlineCheckbox;
     private System.Windows.Forms.CheckBox deliveryCheckbox;

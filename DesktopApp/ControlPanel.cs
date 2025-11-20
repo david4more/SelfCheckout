@@ -44,4 +44,18 @@ public partial class ControlPanel : Form
     private void cashCheckbox_CheckedChanged(object sender, EventArgs e) =>
         Supermarket.Cash = cashCheckbox.Checked;
 
+    private void itemAdd_Click(object sender, EventArgs e)
+    {
+        if (Supermarket.Items.Any(i => i.Code == itemCode.Value))
+        {
+            Supermarket.StockUp((int)itemCode.Value, (int)itemQuantity.Value);
+            MessageBox.Show("Quantity of the item increased", "Success");
+            return;
+        }
+        
+        if (string.IsNullOrWhiteSpace(itemName.Text) || string.IsNullOrWhiteSpace(itemCategory.Text) || itemPrice.Value == 0) 
+            MessageBox.Show("Invalid input", "Error");
+        
+        Supermarket.AddItem(new Item(itemName.Text, itemPrice.Value, (int)itemCode.Value, itemCategory.Text, (int)itemQuantity.Value));
+    }
 }

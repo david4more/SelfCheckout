@@ -1,10 +1,10 @@
 namespace DesktopApp;
 
-public partial class Checkout : Form
+public partial class Machine : Form
 {
     CheckoutBase manager;
 
-    public Checkout()
+    public Machine()
     {
         InitializeComponent();
 
@@ -31,14 +31,6 @@ public partial class Checkout : Form
         transactionTable.Columns["Price"].ReadOnly = true;
 
         adressLabel.Text = "Adress:\n" + Supermarket.Adress;
-        
-        
-        cashCheckbox.Checked = Supermarket.Cash;
-        courierDeliveryCheckbox.Checked = Supermarket.Delivery;
-        cashOnDeliveryCheckbox.Checked = Supermarket.CashOnDelivery;
-        onlineCheckbox.Checked = Supermarket.Online;
-
-        adminTable.DataSource = new List<Transaction>();
     }
     private void proceedButton_Click(object sender, EventArgs e)
     {
@@ -144,19 +136,8 @@ public partial class Checkout : Form
     }
     private void transactionTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellDoubleClick(sender, e);
     private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
-    private void adminButton_Click(object sender, EventArgs e)
+    private void controlPanelButton_Click(object sender, EventArgs e)
     {
-        foreach (var a in Supermarket.getTransactions()) Console.WriteLine(a.Amount);
-        adminTable.DataSource = null;
-        adminTable.DataSource = Supermarket.getTransactions();
-        pages.SelectedIndex = 4;
-    }
-    private void backFromAdminButton_Click(object sender, EventArgs e)
-    {
-        Supermarket.Cash = cashCheckbox.Checked;
-        Supermarket.Delivery = courierDeliveryCheckbox.Checked;
-        Supermarket.CashOnDelivery = cashOnDeliveryCheckbox.Checked;
-        Supermarket.Online = onlineCheckbox.Checked;
-        pages.SelectedIndex = 0;
+        new ControlPanel().Show();
     }
 }
