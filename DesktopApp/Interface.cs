@@ -5,7 +5,7 @@ public abstract class CheckoutBase
 {
     protected decimal _Amount = 0;
     private BindingList<Item> _Items = new BindingList<Item>();
-    protected TableLayoutPanel _Layout = new TableLayoutPanel() { Dock = DockStyle.Fill };
+    protected TableLayoutPanel _Layout = new TableLayoutPanel() { AutoSize = true };
     public event EventHandler? UpdateUi;
     protected void Update() => UpdateUi?.Invoke(this, EventArgs.Empty);
     public BindingList<Item> Items => _Items;
@@ -33,7 +33,7 @@ public abstract class CheckoutBase
         else
             masterItem.Quantity = DefaultQuantity;
 
-        _Items.Add(new Item(masterItem.Name, masterItem.Price, masterItem.Code, masterItem.Category, masterItem.Quantity));
+        _Items.Add(new Item(masterItem.Name, masterItem.Price, masterItem.Category, masterItem.Quantity, masterItem.Code));
     }
     public void RemoveItem(int code)
     {
@@ -41,11 +41,10 @@ public abstract class CheckoutBase
         if (item != null) 
             _Items.Remove(item);
     }
-    public virtual void ClearProperties(bool items = false, bool ui = false)
+    public virtual void CompleteTransaction()
     {
-        if (items) _Items.Clear();
-        if (ui) UpdateUi = null;
-        _Amount = 0;
+        Supermarket.addTransaction(new Transaction(DateTime.Now, Price, Name));
+        _Items.Clear(); UpdateUi = null; _Amount = 0;
     }
     protected virtual decimal Sum => ItemsSum;
     protected decimal ItemsSum  => _Items.Sum(i => i.Price * i.Quantity);
@@ -54,56 +53,47 @@ public abstract class CheckoutBase
     public virtual int DefaultQuantity => 0;
     public virtual bool ValidTransaction => Price <= _Amount;
     public virtual string Name => "Base";
-    public void LogTransaction() => Supermarket.addTransaction(new Transaction(DateTime.Now, Price, Name));
     public string OnComplete => ValidTransaction ? CompleteText : "Invalid Transaction";
     protected virtual string CompleteText => "Complete";
 }
 public class CardRetail : CheckoutBase
 {
-    private decimal totalPurchased = 0;
-    private bool paid = false;
+    private decimal _totalPurchased = 0;
+    private bool _Paid = false;
     protected bool _LoyaltyCard = false;
     protected bool _Delivery = false;
-    private Button pay;
     private CheckBox loyaltyCard;
     private CheckBox delivery;
     protected virtual string loyaltyCardText => "Do you have loyalty card? (-5%)";
     protected virtual string deliveryText => "Do you want your items to be delivered by courier? (+250)";
     public CardRetail()
     {
-        pay = new  Button() { Text = "Pay" };
-        loyaltyCard = new CheckBox() { Text = loyaltyCardText, Dock = DockStyle.Fill };
-        delivery = new CheckBox() { Text = deliveryText, Dock = DockStyle.Fill };
+        loyaltyCard = new CheckBox() { Text = loyaltyCardText, AutoSize = true };
+        delivery = new CheckBox() { Text = deliveryText, AutoSize = true };
         
         loyaltyCard.CheckedChanged += (s, e) => { _LoyaltyCard = loyaltyCard.Checked; Update(); };
         delivery.CheckedChanged += (s, e) => { _Delivery = delivery.Checked; Update(); };
-        pay.Click += (s, e) =>
-        {
-            if (paid == true) { pay.Text = "Already Paid"; return; }
-            paid = true; pay.Text = "Success"; 
-            LogTransaction(); totalPurchased += Price; Update();
-        };
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
             _Layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
         _Layout.Controls.Add(loyaltyCard, 0, 0);
         _Layout.Controls.Add(delivery, 0, 1);
-        _Layout.Controls.Add(pay, 0, 2);
     }
-    public override void ClearProperties(bool items = false, bool ui = false)
+    public override void CompleteTransaction()
     {
-        base.ClearProperties(items,ui);
-        pay.Text = "Pay";
-        paid = false;
+        _totalPurchased += Price;
+        _Paid = true;
+        base.CompleteTransaction();
         loyaltyCard.Checked = false;
         delivery.Checked = false;
+        _Paid = false;
     }
     protected override decimal Sum => ItemsSum * (_LoyaltyCard ? 0.95m : 1) + (_Delivery ? 250m : 0);
-    public override bool ValidTransaction => paid;
+    public override bool ValidTransaction => true;
     public override int DefaultQuantity => 1;
     public override string Name => "Card Retail";
-    protected override string CompleteText => "Transaction complete - " + totalPurchased + " UAH\nHave a nice day!";
+    protected override string CompleteText => "Transaction complete - you paid " + Price + " UAH with card.\nHave a nice day!";
 }
 public class CashRetail : CheckoutBase
 {
@@ -117,9 +107,9 @@ public class CashRetail : CheckoutBase
     public CashRetail()
     {
         paidAmount = new NumericUpDown() { Minimum = 0m, Maximum = 999999m, DecimalPlaces = 2, 
-            Increment = 10m, Value = 1m, Dock = DockStyle.Fill };
-        loyaltyCard = new CheckBox() { Text = loyaltyCardText, Dock = DockStyle.Fill };
-        delivery = new CheckBox() { Text = deliveryText, Dock = DockStyle.Fill };
+            Increment = 10m, Value = 1m, AutoSize = true };
+        loyaltyCard = new CheckBox() { Text = loyaltyCardText, AutoSize = true };
+        delivery = new CheckBox() { Text = deliveryText, AutoSize = true };
         
         loyaltyCard.CheckedChanged += (s, e) => { _LoyaltyCard = loyaltyCard.Checked; Update(); };
         delivery.CheckedChanged += (s, e) => { _Delivery = delivery.Checked; Update(); };
@@ -132,10 +122,9 @@ public class CashRetail : CheckoutBase
         _Layout.Controls.Add(delivery, 0, 1);
         _Layout.Controls.Add(paidAmount, 0, 2);
     }
-    public override void ClearProperties(bool items = false, bool ui = false)
+    public override void CompleteTransaction()
     {
-        if (items && ui) LogTransaction();
-        base.ClearProperties(items, ui);
+        base.CompleteTransaction();
         loyaltyCard.Checked = false;
         delivery.Checked = false;
     }
@@ -154,8 +143,8 @@ public class DeliveryRetail : CheckoutBase
     public DeliveryRetail()
     {
         presentAmount = new NumericUpDown() { Minimum = 0m, Maximum = 999999m, DecimalPlaces = 2, 
-            Increment = 10m, Value = 1m, Dock = DockStyle.Fill };
-        delivery = new Label() { Text = deliveryText, Dock = DockStyle.Fill, MinimumSize = new Size(300, 35),};
+            Increment = 10m, Value = 1m, AutoSize = true };
+        delivery = new Label() { Text = deliveryText, AutoSize = true, MinimumSize = new Size(300, 35),};
         
         presentAmount.ValueChanged += (s, e) => { _Amount = presentAmount.Value; Update(); };
 
@@ -164,11 +153,6 @@ public class DeliveryRetail : CheckoutBase
 
         _Layout.Controls.Add(delivery, 0, 0);
         _Layout.Controls.Add(presentAmount, 0, 1);
-    }
-    public override void ClearProperties(bool items = false, bool ui = false)
-    {
-        if (items && ui) LogTransaction();
-        base.ClearProperties(items, ui);
     }
     protected override decimal Sum => ItemsSum + 250m;
     public override int DefaultQuantity => 1;

@@ -88,14 +88,13 @@ public partial class Machine : Form
     }
     private void transactionBackButton_Click(object sender, EventArgs e)
     {
-        manager.ClearProperties(true);
         Update();
         pages.SelectedIndex = 0;
     }
     private void backButton_Click(object sender, EventArgs e)
     {
         transactionLayout.Controls.Remove(manager.Layout);
-        manager.ClearProperties(true, true);
+        manager.CompleteTransaction();
         pages.SelectedIndex = 0;
         Update();
     }
