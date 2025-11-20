@@ -4,8 +4,9 @@ public partial class Machine : Form
 {
     CheckoutBase manager;
 
-    public Machine()
+    public Machine(CheckoutBase manager)
     {
+        this.manager = manager;
         InitializeComponent();
 
         itemsTable.DataSource = Supermarket.Items;
@@ -14,10 +15,7 @@ public partial class Machine : Form
         categoryCombobox.Items.Add("All");
         categoryCombobox.Items.AddRange(Supermarket.Categories.ToArray());
         categoryCombobox.SelectedIndex = 0;
-
-        cardCheckbox.Click += (s, e) => deliveryCheckbox.Checked = false;
-        deliveryCheckbox.Click += (s, e) => cardCheckbox.Checked = false;
-
+        
         pickedItemsTable.DataSource = new System.ComponentModel.BindingList<Item>(); 
         pickedItemsTable.Columns["Category"].Visible = false;
         pickedItemsTable.Columns["Code"].Visible = false;
@@ -29,36 +27,14 @@ public partial class Machine : Form
         transactionTable.Columns["Code"].Visible = false;
         transactionTable.Columns["Name"].ReadOnly = true;
         transactionTable.Columns["Price"].ReadOnly = true;
-
-        adressLabel.Text = "Adress:\n" + Supermarket.Adress;
-    }
-    private void proceedButton_Click(object sender, EventArgs e)
-    {
-        if (!cardCheckbox.Checked)
-        {
-            if (!Supermarket.Cash) 
-            { MessageBox.Show("Machine cannot accept cash", "Error"); return; }
-            
-            if (!deliveryCheckbox.Checked)
-                manager = wholesaleCheckbox.Checked ? new CashWholesale() : new CashRetail();
-            else
-            {
-                if (!Supermarket.Online || !Supermarket.Delivery || !Supermarket.CashOnDelivery) 
-                { MessageBox.Show("Online delivery order is not supported", "Error"); return; }
-                
-                manager = wholesaleCheckbox.Checked ? new DeliveryWholesale() : new DeliveryRetail();
-            }
-        }
-        else
-            manager = wholesaleCheckbox.Checked ? new CardWholesale() : new CardRetail();
-
+        
+        
         manager.UpdateUi += (s, e) => Update();
 
         transactionLayout.Controls.Add(manager.Layout, 0, 0);
         itemsGroup.Text = manager.Name;
         pickedItemsTable.DataSource = manager.Items;
         transactionTable.DataSource = manager.Items;
-        pages.SelectedIndex = 1;
     }
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -97,7 +73,7 @@ public partial class Machine : Form
     }
     private void itemsProceed_Click(object sender, EventArgs e)
     {
-        if (manager.ValidQuantity) pages.SelectedIndex = 2;
+        if (manager.ValidQuantity) pages.SelectedIndex = 1;
         else MessageBox.Show("Invalid quantity", "Error");
     }
     private void transactionProceedButton_Click(object sender, EventArgs e) 
@@ -108,21 +84,18 @@ public partial class Machine : Form
         }
 
         backButton.Text = manager.OnComplete;
-        pages.SelectedIndex = 3;
+        pages.SelectedIndex = 2;
     }
     private void transactionBackButton_Click(object sender, EventArgs e)
     {
         manager.ClearProperties(true);
         Update();
-        pages.SelectedIndex = 1;
+        pages.SelectedIndex = 0;
     }
     private void backButton_Click(object sender, EventArgs e)
     {
         transactionLayout.Controls.Remove(manager.Layout);
         manager.ClearProperties(true, true);
-        wholesaleCheckbox.Checked = false;
-        cardCheckbox.Checked = false;
-        deliveryCheckbox.Checked = false;
         pages.SelectedIndex = 0;
         Update();
     }
@@ -136,8 +109,4 @@ public partial class Machine : Form
     }
     private void transactionTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellDoubleClick(sender, e);
     private void transactionTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) => pickedItemsTable_CellValueChanged(sender, e);
-    private void controlPanelButton_Click(object sender, EventArgs e)
-    {
-        new ControlPanel().Show();
-    }
 }

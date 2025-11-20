@@ -29,16 +29,6 @@ partial class Machine
     private void InitializeComponent()
     {
         pages = new System.Windows.Forms.TabControl();
-        main = new System.Windows.Forms.TabPage();
-        mainLayout = new System.Windows.Forms.TableLayoutPanel();
-        mainProceed = new System.Windows.Forms.Button();
-        label1 = new System.Windows.Forms.Label();
-        tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-        deliveryCheckbox = new System.Windows.Forms.CheckBox();
-        wholesaleCheckbox = new System.Windows.Forms.CheckBox();
-        cardCheckbox = new System.Windows.Forms.CheckBox();
-        label2 = new System.Windows.Forms.Label();
-        adressLabel = new System.Windows.Forms.Label();
         items = new System.Windows.Forms.TabPage();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
         itemsTable = new System.Windows.Forms.DataGridView();
@@ -55,11 +45,7 @@ partial class Machine
         complete = new System.Windows.Forms.TabPage();
         backButton = new System.Windows.Forms.Button();
         tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-        controlPanelButton = new System.Windows.Forms.Button();
         pages.SuspendLayout();
-        main.SuspendLayout();
-        mainLayout.SuspendLayout();
-        tableLayoutPanel1.SuspendLayout();
         items.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
@@ -77,7 +63,6 @@ partial class Machine
         // 
         // pages
         // 
-        pages.Controls.Add(main);
         pages.Controls.Add(items);
         pages.Controls.Add(checkout);
         pages.Controls.Add(complete);
@@ -87,130 +72,6 @@ partial class Machine
         pages.SelectedIndex = 0;
         pages.Size = new System.Drawing.Size(800, 450);
         pages.TabIndex = 0;
-        // 
-        // main
-        // 
-        main.Controls.Add(mainLayout);
-        main.Location = new System.Drawing.Point(4, 24);
-        main.Name = "main";
-        main.Padding = new System.Windows.Forms.Padding(3);
-        main.Size = new System.Drawing.Size(792, 422);
-        main.TabIndex = 0;
-        main.Text = "main";
-        main.UseVisualStyleBackColor = true;
-        // 
-        // mainLayout
-        // 
-        mainLayout.ColumnCount = 3;
-        mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.Controls.Add(mainProceed, 1, 2);
-        mainLayout.Controls.Add(label1, 1, 0);
-        mainLayout.Controls.Add(tableLayoutPanel1, 1, 1);
-        mainLayout.Controls.Add(label2, 2, 0);
-        mainLayout.Controls.Add(adressLabel, 0, 0);
-        mainLayout.Controls.Add(controlPanelButton, 2, 2);
-        mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-        mainLayout.Location = new System.Drawing.Point(3, 3);
-        mainLayout.Name = "mainLayout";
-        mainLayout.RowCount = 3;
-        mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        mainLayout.Size = new System.Drawing.Size(786, 416);
-        mainLayout.TabIndex = 5;
-        // 
-        // mainProceed
-        // 
-        mainProceed.Dock = System.Windows.Forms.DockStyle.Fill;
-        mainProceed.Location = new System.Drawing.Point(291, 306);
-        mainProceed.Margin = new System.Windows.Forms.Padding(30);
-        mainProceed.Name = "mainProceed";
-        mainProceed.Size = new System.Drawing.Size(201, 80);
-        mainProceed.TabIndex = 3;
-        mainProceed.Text = "Proceed";
-        mainProceed.UseVisualStyleBackColor = true;
-        mainProceed.Click += proceedButton_Click;
-        // 
-        // label1
-        // 
-        label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)), System.Drawing.GraphicsUnit.Point, ((byte)0));
-        label1.Location = new System.Drawing.Point(291, 30);
-        label1.Margin = new System.Windows.Forms.Padding(30);
-        label1.Name = "label1";
-        label1.Size = new System.Drawing.Size(201, 78);
-        label1.TabIndex = 4;
-        label1.Text = "Welcome!\r\nPick your type of order:";
-        // 
-        // tableLayoutPanel1
-        // 
-        tableLayoutPanel1.ColumnCount = 1;
-        tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        tableLayoutPanel1.Controls.Add(deliveryCheckbox, 0, 1);
-        tableLayoutPanel1.Controls.Add(wholesaleCheckbox, 0, 2);
-        tableLayoutPanel1.Controls.Add(cardCheckbox, 0, 0);
-        tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-        tableLayoutPanel1.Location = new System.Drawing.Point(271, 148);
-        tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(10);
-        tableLayoutPanel1.Name = "tableLayoutPanel1";
-        tableLayoutPanel1.RowCount = 3;
-        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        tableLayoutPanel1.Size = new System.Drawing.Size(241, 118);
-        tableLayoutPanel1.TabIndex = 5;
-        // 
-        // deliveryCheckbox
-        // 
-        deliveryCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-        deliveryCheckbox.Location = new System.Drawing.Point(3, 42);
-        deliveryCheckbox.Name = "deliveryCheckbox";
-        deliveryCheckbox.Size = new System.Drawing.Size(235, 33);
-        deliveryCheckbox.TabIndex = 1;
-        deliveryCheckbox.Text = "Delivery";
-        deliveryCheckbox.UseVisualStyleBackColor = true;
-        // 
-        // wholesaleCheckbox
-        // 
-        wholesaleCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-        wholesaleCheckbox.Location = new System.Drawing.Point(3, 81);
-        wholesaleCheckbox.Name = "wholesaleCheckbox";
-        wholesaleCheckbox.Size = new System.Drawing.Size(235, 34);
-        wholesaleCheckbox.TabIndex = 2;
-        wholesaleCheckbox.Text = "Wholesale";
-        wholesaleCheckbox.UseVisualStyleBackColor = true;
-        // 
-        // cardCheckbox
-        // 
-        cardCheckbox.Dock = System.Windows.Forms.DockStyle.Fill;
-        cardCheckbox.Location = new System.Drawing.Point(3, 3);
-        cardCheckbox.Name = "cardCheckbox";
-        cardCheckbox.Size = new System.Drawing.Size(235, 33);
-        cardCheckbox.TabIndex = 0;
-        cardCheckbox.Text = "Card";
-        cardCheckbox.UseVisualStyleBackColor = true;
-        // 
-        // label2
-        // 
-        label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)));
-        label2.Location = new System.Drawing.Point(552, 30);
-        label2.Margin = new System.Windows.Forms.Padding(30);
-        label2.Name = "label2";
-        label2.Size = new System.Drawing.Size(204, 78);
-        label2.TabIndex = 6;
-        label2.Text = "Card payment on delivery is not supported\r\n";
-        // 
-        // adressLabel
-        // 
-        adressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-        adressLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)(System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)));
-        adressLabel.Location = new System.Drawing.Point(30, 30);
-        adressLabel.Margin = new System.Windows.Forms.Padding(30);
-        adressLabel.Name = "adressLabel";
-        adressLabel.Size = new System.Drawing.Size(201, 78);
-        adressLabel.TabIndex = 7;
-        adressLabel.Text = "Adress:\r\n";
         // 
         // items
         // 
@@ -433,18 +294,6 @@ partial class Machine
         tableLayoutPanel3.Size = new System.Drawing.Size(786, 416);
         tableLayoutPanel3.TabIndex = 0;
         // 
-        // controlPanelButton
-        // 
-        controlPanelButton.Dock = System.Windows.Forms.DockStyle.Fill;
-        controlPanelButton.Location = new System.Drawing.Point(572, 326);
-        controlPanelButton.Margin = new System.Windows.Forms.Padding(50);
-        controlPanelButton.Name = "controlPanelButton";
-        controlPanelButton.Size = new System.Drawing.Size(164, 40);
-        controlPanelButton.TabIndex = 8;
-        controlPanelButton.Text = "Control Panel";
-        controlPanelButton.UseVisualStyleBackColor = true;
-        controlPanelButton.Click += controlPanelButton_Click;
-        // 
         // Machine
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -453,9 +302,6 @@ partial class Machine
         Controls.Add(pages);
         Text = "Self-Checkout";
         pages.ResumeLayout(false);
-        main.ResumeLayout(false);
-        mainLayout.ResumeLayout(false);
-        tableLayoutPanel1.ResumeLayout(false);
         items.ResumeLayout(false);
         splitContainer1.Panel1.ResumeLayout(false);
         splitContainer1.Panel2.ResumeLayout(false);
@@ -472,13 +318,9 @@ partial class Machine
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Button controlPanelButton;
-
     private System.Windows.Forms.DataGridView adminTable;
 
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-
-    private System.Windows.Forms.Label adressLabel;
 
     private System.Windows.Forms.Button backButton;
 
@@ -492,12 +334,6 @@ partial class Machine
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 
     private System.Windows.Forms.TableLayoutPanel transactionLayout;
-
-    private System.Windows.Forms.Label label2;
-
-    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-
-    private System.Windows.Forms.TableLayoutPanel mainLayout;
 
     private System.Windows.Forms.SplitContainer splitContainer1;
 
@@ -513,15 +349,7 @@ partial class Machine
 
     private System.Windows.Forms.TabPage checkout;
 
-    private System.Windows.Forms.Button mainProceed;
-    private System.Windows.Forms.Label label1;
-
-    private System.Windows.Forms.CheckBox cardCheckbox;
-    private System.Windows.Forms.CheckBox deliveryCheckbox;
-    private System.Windows.Forms.CheckBox wholesaleCheckbox;
-
     private System.Windows.Forms.TabControl pages;
-    private System.Windows.Forms.TabPage main;
     private System.Windows.Forms.TabPage items;
 
     #endregion

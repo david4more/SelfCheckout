@@ -36,7 +36,7 @@ partial class ControlPanel
         wholesaleCheckout = new System.Windows.Forms.CheckBox();
         deliveryCheckout = new System.Windows.Forms.CheckBox();
         cardCheckout = new System.Windows.Forms.CheckBox();
-        addCheckout = new System.Windows.Forms.Button();
+        addMachine = new System.Windows.Forms.Button();
         tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
         cashOnDeliveryCheckbox = new System.Windows.Forms.CheckBox();
         deliveryCheckbox = new System.Windows.Forms.CheckBox();
@@ -50,6 +50,7 @@ partial class ControlPanel
         numberLabel = new System.Windows.Forms.Label();
         adressLabel = new System.Windows.Forms.Label();
         nameLabel = new System.Windows.Forms.Label();
+        labelhehe = new System.Windows.Forms.Label();
         tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
         itemPrice = new System.Windows.Forms.NumericUpDown();
         itemCode = new System.Windows.Forms.NumericUpDown();
@@ -58,7 +59,8 @@ partial class ControlPanel
         itemCategory = new System.Windows.Forms.TextBox();
         itemAdd = new System.Windows.Forms.Button();
         tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-        deleteCombobox = new System.Windows.Forms.ComboBox();
+        launchButton = new System.Windows.Forms.Button();
+        machineCombobox = new System.Windows.Forms.ComboBox();
         deleteButton = new System.Windows.Forms.Button();
         tableLayoutPanel1.SuspendLayout();
         tableLayoutPanel4.SuspendLayout();
@@ -101,7 +103,7 @@ partial class ControlPanel
         tableLayoutPanel4.Controls.Add(wholesaleCheckout, 0, 2);
         tableLayoutPanel4.Controls.Add(deliveryCheckout, 0, 1);
         tableLayoutPanel4.Controls.Add(cardCheckout, 0, 0);
-        tableLayoutPanel4.Controls.Add(addCheckout, 0, 3);
+        tableLayoutPanel4.Controls.Add(addMachine, 0, 3);
         tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel4.Location = new System.Drawing.Point(276, 235);
         tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(10);
@@ -147,15 +149,16 @@ partial class ControlPanel
         cardCheckout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         cardCheckout.UseVisualStyleBackColor = true;
         // 
-        // addCheckout
+        // addMachine
         // 
-        addCheckout.Dock = System.Windows.Forms.DockStyle.Fill;
-        addCheckout.Location = new System.Drawing.Point(3, 156);
-        addCheckout.Name = "addCheckout";
-        addCheckout.Size = new System.Drawing.Size(240, 46);
-        addCheckout.TabIndex = 3;
-        addCheckout.Text = "Add Checkout";
-        addCheckout.UseVisualStyleBackColor = true;
+        addMachine.Dock = System.Windows.Forms.DockStyle.Fill;
+        addMachine.Location = new System.Drawing.Point(3, 156);
+        addMachine.Name = "addMachine";
+        addMachine.Size = new System.Drawing.Size(240, 46);
+        addMachine.TabIndex = 3;
+        addMachine.Text = "Add Checkout Machine";
+        addMachine.UseVisualStyleBackColor = true;
+        addMachine.Click += addMachine_Click;
         // 
         // tableLayoutPanel3
         // 
@@ -187,6 +190,7 @@ partial class ControlPanel
         cashOnDeliveryCheckbox.Text = "Cash on delivery available";
         cashOnDeliveryCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         cashOnDeliveryCheckbox.UseVisualStyleBackColor = true;
+        cashOnDeliveryCheckbox.CheckedChanged += cashOnDeliveryCheckbox_CheckedChanged;
         // 
         // deliveryCheckbox
         // 
@@ -279,24 +283,26 @@ partial class ControlPanel
         tableLayoutPanel5.Controls.Add(numberLabel, 0, 2);
         tableLayoutPanel5.Controls.Add(adressLabel, 0, 1);
         tableLayoutPanel5.Controls.Add(nameLabel, 0, 0);
+        tableLayoutPanel5.Controls.Add(labelhehe, 0, 3);
         tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel5.Location = new System.Drawing.Point(10, 10);
         tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(10);
         tableLayoutPanel5.Name = "tableLayoutPanel5";
-        tableLayoutPanel5.RowCount = 3;
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel5.RowCount = 4;
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000624F));
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000628F));
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000628F));
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.998129F));
         tableLayoutPanel5.Size = new System.Drawing.Size(246, 205);
         tableLayoutPanel5.TabIndex = 5;
         // 
         // numberLabel
         // 
         numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-        numberLabel.Location = new System.Drawing.Point(3, 139);
+        numberLabel.Location = new System.Drawing.Point(3, 105);
         numberLabel.Margin = new System.Windows.Forms.Padding(3);
         numberLabel.Name = "numberLabel";
-        numberLabel.Size = new System.Drawing.Size(240, 63);
+        numberLabel.Size = new System.Drawing.Size(240, 45);
         numberLabel.TabIndex = 2;
         numberLabel.Text = "Number";
         numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -304,10 +310,10 @@ partial class ControlPanel
         // adressLabel
         // 
         adressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-        adressLabel.Location = new System.Drawing.Point(3, 71);
+        adressLabel.Location = new System.Drawing.Point(3, 54);
         adressLabel.Margin = new System.Windows.Forms.Padding(3);
         adressLabel.Name = "adressLabel";
-        adressLabel.Size = new System.Drawing.Size(240, 62);
+        adressLabel.Size = new System.Drawing.Size(240, 45);
         adressLabel.TabIndex = 1;
         adressLabel.Text = "Adress";
         adressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -318,10 +324,18 @@ partial class ControlPanel
         nameLabel.Location = new System.Drawing.Point(3, 3);
         nameLabel.Margin = new System.Windows.Forms.Padding(3);
         nameLabel.Name = "nameLabel";
-        nameLabel.Size = new System.Drawing.Size(240, 62);
+        nameLabel.Size = new System.Drawing.Size(240, 45);
         nameLabel.TabIndex = 0;
         nameLabel.Text = "Name";
         nameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+        // 
+        // labelhehe
+        // 
+        labelhehe.Location = new System.Drawing.Point(3, 153);
+        labelhehe.Name = "labelhehe";
+        labelhehe.Size = new System.Drawing.Size(240, 52);
+        labelhehe.TabIndex = 3;
+        labelhehe.Text = "Table placeholder";
         // 
         // tableLayoutPanel6
         // 
@@ -413,36 +427,50 @@ partial class ControlPanel
         // tableLayoutPanel7
         // 
         tableLayoutPanel7.ColumnCount = 1;
-        tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tableLayoutPanel7.Controls.Add(deleteCombobox, 0, 0);
+        tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tableLayoutPanel7.Controls.Add(launchButton, 0, 2);
+        tableLayoutPanel7.Controls.Add(machineCombobox, 0, 0);
         tableLayoutPanel7.Controls.Add(deleteButton, 0, 1);
         tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel7.Location = new System.Drawing.Point(542, 235);
         tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(10);
         tableLayoutPanel7.Name = "tableLayoutPanel7";
-        tableLayoutPanel7.RowCount = 2;
-        tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+        tableLayoutPanel7.RowCount = 3;
+        tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
+        tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.333332F));
         tableLayoutPanel7.Size = new System.Drawing.Size(248, 205);
         tableLayoutPanel7.TabIndex = 7;
         // 
-        // deleteCombobox
+        // launchButton
         // 
-        deleteCombobox.Dock = System.Windows.Forms.DockStyle.Fill;
-        deleteCombobox.FormattingEnabled = true;
-        deleteCombobox.Location = new System.Drawing.Point(3, 3);
-        deleteCombobox.Name = "deleteCombobox";
-        deleteCombobox.Size = new System.Drawing.Size(242, 23);
-        deleteCombobox.TabIndex = 0;
+        launchButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        launchButton.Location = new System.Drawing.Point(10, 146);
+        launchButton.Margin = new System.Windows.Forms.Padding(10);
+        launchButton.Name = "launchButton";
+        launchButton.Size = new System.Drawing.Size(228, 49);
+        launchButton.TabIndex = 2;
+        launchButton.Text = "Launch Checkout Machine";
+        launchButton.UseVisualStyleBackColor = true;
+        launchButton.Click += launchButton_Click;
+        // 
+        // machineCombobox
+        // 
+        machineCombobox.Dock = System.Windows.Forms.DockStyle.Fill;
+        machineCombobox.FormattingEnabled = true;
+        machineCombobox.Location = new System.Drawing.Point(10, 20);
+        machineCombobox.Margin = new System.Windows.Forms.Padding(10, 20, 10, 10);
+        machineCombobox.Name = "machineCombobox";
+        machineCombobox.Size = new System.Drawing.Size(228, 23);
+        machineCombobox.TabIndex = 0;
         // 
         // deleteButton
         // 
         deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
-        deleteButton.Location = new System.Drawing.Point(30, 132);
-        deleteButton.Margin = new System.Windows.Forms.Padding(30);
+        deleteButton.Location = new System.Drawing.Point(10, 78);
+        deleteButton.Margin = new System.Windows.Forms.Padding(10);
         deleteButton.Name = "deleteButton";
-        deleteButton.Size = new System.Drawing.Size(188, 43);
+        deleteButton.Size = new System.Drawing.Size(228, 48);
         deleteButton.TabIndex = 1;
         deleteButton.Text = "Delete Checkout Machine";
         deleteButton.UseVisualStyleBackColor = true;
@@ -469,7 +497,11 @@ partial class ControlPanel
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.ComboBox deleteCombobox;
+    private System.Windows.Forms.Button launchButton;
+
+    private System.Windows.Forms.Label labelhehe;
+
+    private System.Windows.Forms.ComboBox machineCombobox;
     private System.Windows.Forms.Button deleteButton;
 
     private System.Windows.Forms.NumericUpDown itemPrice;
@@ -504,7 +536,7 @@ partial class ControlPanel
 
     private System.Windows.Forms.CheckBox deliveryCheckout;
     private System.Windows.Forms.CheckBox wholesaleCheckout;
-    private System.Windows.Forms.Button addCheckout;
+    private System.Windows.Forms.Button addMachine;
 
     private System.Windows.Forms.CheckBox cardCheckout;
 

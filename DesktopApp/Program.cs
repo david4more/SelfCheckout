@@ -11,14 +11,14 @@ public static class Supermarket
     public static bool Online = true;
     public static bool Delivery = true;
     public static bool CashOnDelivery = true;
-    public static Dictionary<string, CheckoutBase> Checkouts = new Dictionary<string, CheckoutBase>();
+    public static Dictionary<string, CheckoutBase> Machines = new Dictionary<string, CheckoutBase>();
     static List<Transaction> Transactions = new List<Transaction>();
 
     public static void SaveToFile() { }
     public static void LoadFromFile() { }
     public static void SaveTransactions() { }
-    public static void AddCheckout(CheckoutBase checkout) => Checkouts.TryAdd(checkout.Name, checkout);
-    public static void DeleteCheckout(string name) => Checkouts.Remove(name);
+    public static void AddCheckout(CheckoutBase checkout) => Machines.TryAdd(checkout.Name, checkout);
+    public static void DeleteCheckout(string name) => Machines.Remove(name);
     public static void AddItem(Item item) => Items.Add(item);
     public static void StockUp(int code, int quantity) => Items.First(i => i.Code == code).Quantity += quantity;
     public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
@@ -180,6 +180,6 @@ static class Program
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new Machine());
+        Application.Run(new ControlPanel());
     }
 }
