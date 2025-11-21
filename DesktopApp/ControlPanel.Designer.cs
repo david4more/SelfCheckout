@@ -43,14 +43,13 @@ partial class ControlPanel
         onlineCheckbox = new System.Windows.Forms.CheckBox();
         cashCheckbox = new System.Windows.Forms.CheckBox();
         tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-        button4 = new System.Windows.Forms.Button();
-        button3 = new System.Windows.Forms.Button();
-        button2 = new System.Windows.Forms.Button();
+        saveTransactionsButton = new System.Windows.Forms.Button();
+        loadFromFileButton = new System.Windows.Forms.Button();
+        saveToFileButton = new System.Windows.Forms.Button();
         tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-        numberLabel = new System.Windows.Forms.Label();
-        adressLabel = new System.Windows.Forms.Label();
-        nameLabel = new System.Windows.Forms.Label();
-        labelhehe = new System.Windows.Forms.Label();
+        nameLabel = new System.Windows.Forms.TextBox();
+        adressLabel = new System.Windows.Forms.TextBox();
+        numberLabel = new System.Windows.Forms.TextBox();
         tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
         itemPrice = new System.Windows.Forms.NumericUpDown();
         itemCode = new System.Windows.Forms.NumericUpDown();
@@ -62,6 +61,7 @@ partial class ControlPanel
         launchButton = new System.Windows.Forms.Button();
         machineCombobox = new System.Windows.Forms.ComboBox();
         deleteButton = new System.Windows.Forms.Button();
+        transactionsTable = new System.Windows.Forms.DataGridView();
         tableLayoutPanel1.SuspendLayout();
         tableLayoutPanel4.SuspendLayout();
         tableLayoutPanel3.SuspendLayout();
@@ -72,6 +72,7 @@ partial class ControlPanel
         ((System.ComponentModel.ISupportInitialize)itemCode).BeginInit();
         ((System.ComponentModel.ISupportInitialize)itemQuantity).BeginInit();
         tableLayoutPanel7.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)transactionsTable).BeginInit();
         SuspendLayout();
         // 
         // tableLayoutPanel1
@@ -232,9 +233,9 @@ partial class ControlPanel
         // 
         tableLayoutPanel2.ColumnCount = 1;
         tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        tableLayoutPanel2.Controls.Add(button4, 0, 2);
-        tableLayoutPanel2.Controls.Add(button3, 0, 1);
-        tableLayoutPanel2.Controls.Add(button2, 0, 0);
+        tableLayoutPanel2.Controls.Add(saveTransactionsButton, 0, 2);
+        tableLayoutPanel2.Controls.Add(loadFromFileButton, 0, 1);
+        tableLayoutPanel2.Controls.Add(saveToFileButton, 0, 0);
         tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel2.Location = new System.Drawing.Point(10, 235);
         tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(10);
@@ -246,96 +247,85 @@ partial class ControlPanel
         tableLayoutPanel2.Size = new System.Drawing.Size(246, 205);
         tableLayoutPanel2.TabIndex = 3;
         // 
-        // button4
+        // saveTransactionsButton
         // 
-        button4.Dock = System.Windows.Forms.DockStyle.Fill;
-        button4.Location = new System.Drawing.Point(3, 139);
-        button4.Name = "button4";
-        button4.Size = new System.Drawing.Size(240, 63);
-        button4.TabIndex = 2;
-        button4.Text = "Save Transactions";
-        button4.UseVisualStyleBackColor = true;
+        saveTransactionsButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        saveTransactionsButton.Location = new System.Drawing.Point(3, 139);
+        saveTransactionsButton.Name = "saveTransactionsButton";
+        saveTransactionsButton.Size = new System.Drawing.Size(240, 63);
+        saveTransactionsButton.TabIndex = 2;
+        saveTransactionsButton.Text = "Save Transactions";
+        saveTransactionsButton.UseVisualStyleBackColor = true;
+        saveTransactionsButton.Click += saveTransactionsButton_Click;
         // 
-        // button3
+        // loadFromFileButton
         // 
-        button3.Dock = System.Windows.Forms.DockStyle.Fill;
-        button3.Location = new System.Drawing.Point(3, 71);
-        button3.Name = "button3";
-        button3.Size = new System.Drawing.Size(240, 62);
-        button3.TabIndex = 1;
-        button3.Text = "Load from File";
-        button3.UseVisualStyleBackColor = true;
+        loadFromFileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        loadFromFileButton.Location = new System.Drawing.Point(3, 71);
+        loadFromFileButton.Name = "loadFromFileButton";
+        loadFromFileButton.Size = new System.Drawing.Size(240, 62);
+        loadFromFileButton.TabIndex = 1;
+        loadFromFileButton.Text = "Load from File";
+        loadFromFileButton.UseVisualStyleBackColor = true;
+        loadFromFileButton.Click += loadFromFileButton_Click;
         // 
-        // button2
+        // saveToFileButton
         // 
-        button2.Dock = System.Windows.Forms.DockStyle.Fill;
-        button2.Location = new System.Drawing.Point(3, 3);
-        button2.Name = "button2";
-        button2.Size = new System.Drawing.Size(240, 62);
-        button2.TabIndex = 0;
-        button2.Text = "Save to File";
-        button2.UseVisualStyleBackColor = true;
+        saveToFileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+        saveToFileButton.Location = new System.Drawing.Point(3, 3);
+        saveToFileButton.Name = "saveToFileButton";
+        saveToFileButton.Size = new System.Drawing.Size(240, 62);
+        saveToFileButton.TabIndex = 0;
+        saveToFileButton.Text = "Save to File";
+        saveToFileButton.UseVisualStyleBackColor = true;
+        saveToFileButton.Click += saveToFileButton_Click;
         // 
         // tableLayoutPanel5
         // 
         tableLayoutPanel5.ColumnCount = 1;
         tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        tableLayoutPanel5.Controls.Add(numberLabel, 0, 2);
-        tableLayoutPanel5.Controls.Add(adressLabel, 0, 1);
         tableLayoutPanel5.Controls.Add(nameLabel, 0, 0);
-        tableLayoutPanel5.Controls.Add(labelhehe, 0, 3);
+        tableLayoutPanel5.Controls.Add(adressLabel, 0, 1);
+        tableLayoutPanel5.Controls.Add(numberLabel, 0, 2);
+        tableLayoutPanel5.Controls.Add(transactionsTable, 0, 3);
         tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
         tableLayoutPanel5.Location = new System.Drawing.Point(10, 10);
         tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(10);
         tableLayoutPanel5.Name = "tableLayoutPanel5";
         tableLayoutPanel5.RowCount = 4;
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000624F));
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000628F));
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.000628F));
-        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.998129F));
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+        tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.00001F));
         tableLayoutPanel5.Size = new System.Drawing.Size(246, 205);
         tableLayoutPanel5.TabIndex = 5;
-        // 
-        // numberLabel
-        // 
-        numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-        numberLabel.Location = new System.Drawing.Point(3, 105);
-        numberLabel.Margin = new System.Windows.Forms.Padding(3);
-        numberLabel.Name = "numberLabel";
-        numberLabel.Size = new System.Drawing.Size(240, 45);
-        numberLabel.TabIndex = 2;
-        numberLabel.Text = "Number";
-        numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        // 
-        // adressLabel
-        // 
-        adressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-        adressLabel.Location = new System.Drawing.Point(3, 54);
-        adressLabel.Margin = new System.Windows.Forms.Padding(3);
-        adressLabel.Name = "adressLabel";
-        adressLabel.Size = new System.Drawing.Size(240, 45);
-        adressLabel.TabIndex = 1;
-        adressLabel.Text = "Adress";
-        adressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // nameLabel
         // 
         nameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
         nameLabel.Location = new System.Drawing.Point(3, 3);
-        nameLabel.Margin = new System.Windows.Forms.Padding(3);
         nameLabel.Name = "nameLabel";
-        nameLabel.Size = new System.Drawing.Size(240, 45);
-        nameLabel.TabIndex = 0;
-        nameLabel.Text = "Name";
-        nameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+        nameLabel.PlaceholderText = "SupermarketName";
+        nameLabel.Size = new System.Drawing.Size(240, 23);
+        nameLabel.TabIndex = 4;
         // 
-        // labelhehe
+        // adressLabel
         // 
-        labelhehe.Location = new System.Drawing.Point(3, 153);
-        labelhehe.Name = "labelhehe";
-        labelhehe.Size = new System.Drawing.Size(240, 52);
-        labelhehe.TabIndex = 3;
-        labelhehe.Text = "Table placeholder";
+        adressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+        adressLabel.Location = new System.Drawing.Point(3, 32);
+        adressLabel.Name = "adressLabel";
+        adressLabel.PlaceholderText = "SupermarketAddress";
+        adressLabel.Size = new System.Drawing.Size(240, 23);
+        adressLabel.TabIndex = 5;
+        // 
+        // numberLabel
+        // 
+        numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+        numberLabel.Location = new System.Drawing.Point(3, 61);
+        numberLabel.Name = "numberLabel";
+        numberLabel.PlaceholderText = "SupermarketNumber";
+        numberLabel.Size = new System.Drawing.Size(240, 23);
+        numberLabel.TabIndex = 6;
         // 
         // tableLayoutPanel6
         // 
@@ -476,6 +466,16 @@ partial class ControlPanel
         deleteButton.UseVisualStyleBackColor = true;
         deleteButton.Click += deleteButton_Click;
         // 
+        // transactionsTable
+        // 
+        transactionsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        transactionsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+        transactionsTable.Location = new System.Drawing.Point(3, 90);
+        transactionsTable.Name = "transactionsTable";
+        transactionsTable.Size = new System.Drawing.Size(240, 112);
+        transactionsTable.TabIndex = 7;
+        transactionsTable.Text = "dataGridView1";
+        // 
         // ControlPanel
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -488,18 +488,24 @@ partial class ControlPanel
         tableLayoutPanel3.ResumeLayout(false);
         tableLayoutPanel2.ResumeLayout(false);
         tableLayoutPanel5.ResumeLayout(false);
+        tableLayoutPanel5.PerformLayout();
         tableLayoutPanel6.ResumeLayout(false);
         tableLayoutPanel6.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)itemPrice).EndInit();
         ((System.ComponentModel.ISupportInitialize)itemCode).EndInit();
         ((System.ComponentModel.ISupportInitialize)itemQuantity).EndInit();
         tableLayoutPanel7.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)transactionsTable).EndInit();
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Button launchButton;
+    private System.Windows.Forms.DataGridView transactionsTable;
 
-    private System.Windows.Forms.Label labelhehe;
+    private System.Windows.Forms.TextBox adressLabel;
+
+    private System.Windows.Forms.TextBox nameLabel;
+
+    private System.Windows.Forms.Button launchButton;
 
     private System.Windows.Forms.ComboBox machineCombobox;
     private System.Windows.Forms.Button deleteButton;
@@ -517,20 +523,17 @@ partial class ControlPanel
 
     private System.Windows.Forms.CheckBox cashCheckbox;
 
-    private System.Windows.Forms.Label adressLabel;
-    private System.Windows.Forms.Label numberLabel;
+    private System.Windows.Forms.TextBox numberLabel;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
 
-    private System.Windows.Forms.Label nameLabel;
-
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
 
-    private System.Windows.Forms.Button button3;
-    private System.Windows.Forms.Button button4;
+    private System.Windows.Forms.Button loadFromFileButton;
+    private System.Windows.Forms.Button saveTransactionsButton;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
 
-    private System.Windows.Forms.Button button2;
+    private System.Windows.Forms.Button saveToFileButton;
 
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 

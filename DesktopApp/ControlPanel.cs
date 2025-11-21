@@ -5,20 +5,13 @@ public partial class ControlPanel : Form
     public ControlPanel()
     {
         InitializeComponent();
-        
-        nameLabel.Text = Supermarket.name;
-        adressLabel.Text = Supermarket.Adress;
-        numberLabel.Text = Supermarket.JuridicalNumber;
-        
+
         cardCheckout.Click += (s, e) => deliveryCheckout.Checked = false;
         deliveryCheckout.Click += (s, e) => cardCheckout.Checked = false;
+
+        transactionsTable.DataSource = Supermarket.getTransactions();
         
-        machineCombobox.DataSource = Supermarket.Machines.Keys.ToList();
-        
-        cashCheckbox.Checked = Supermarket.Cash;
-        deliveryCheckbox.Checked = Supermarket.Delivery;
-        cashOnDeliveryCheckbox.Checked = Supermarket.CashOnDelivery;
-        onlineCheckbox.Checked = Supermarket.Online;
+        UpdateData();
     }
     private void addMachine_Click(object sender, EventArgs e)
     {
@@ -28,18 +21,17 @@ public partial class ControlPanel : Form
             { MessageBox.Show("Machine cannot accept cash", "Error"); return; }
             
             if (!deliveryCheckout.Checked)
-                Supermarket.AddCheckout(wholesaleCheckout.Checked ? new CashWholesale() : new CashRetail());
+                Supermarket.AddMachine(wholesaleCheckout.Checked ? new CashWholesale() : new CashRetail());
             else
             {
                 if (!Supermarket.Online || !Supermarket.Delivery || !Supermarket.CashOnDelivery) 
                 { MessageBox.Show("Online delivery order is not supported", "Error"); return; }
                 
-                Supermarket.AddCheckout(wholesaleCheckout.Checked ? new DeliveryWholesale() : new DeliveryRetail());
+                Supermarket.AddMachine(wholesaleCheckout.Checked ? new DeliveryWholesale() : new DeliveryRetail());
             }
         }
         else
-            Supermarket.AddCheckout(wholesaleCheckout.Checked ? new CardWholesale() : new CardRetail());
-        
+            Supermarket.AddMachine(wholesaleCheckout.Checked ? new CardWholesale() : new CardRetail());
         
         machineCombobox.DataSource = Supermarket.Machines.Keys.ToList();
     }
@@ -58,7 +50,10 @@ public partial class ControlPanel : Form
         if (string.IsNullOrWhiteSpace(machineCombobox.Text))
             MessageBox.Show("No checkout machines available", "Error");
         else
-            Supermarket.DeleteCheckout(machineCombobox.Text);
+            Supermarket.DeleteMachine(machineCombobox.Text);
+        
+        machineCombobox.DataSource = Supermarket.Machines.Keys.ToList();
+        if (Supermarket.Machines.Keys.ToList().Count == 0) machineCombobox.Text = "";
     }
     private void launchButton_Click(object sender, EventArgs e)
     {
@@ -67,4 +62,30 @@ public partial class ControlPanel : Form
         else
             new Machine(Supermarket.Machines[machineCombobox.Text]).Show();
     }
+    private void saveToFileButton_Click(object sender, EventArgs e)
+    {
+        Supermarket.Name = nameLabel.Text;
+        Supermarket.Address = adressLabel.Text;
+        Supermarket.JuridicalNumber = numberLabel.Text;
+        Supermarket.SaveToFile();
+    }
+    private void loadFromFileButton_Click(object sender, EventArgs e)
+    {
+        Supermarket.LoadFromFile();
+        UpdateData();
+    }
+    private void UpdateData()
+    {
+        nameLabel.Text = Supermarket.Name;
+        adressLabel.Text = Supermarket.Address;
+        numberLabel.Text = Supermarket.JuridicalNumber;
+        
+        machineCombobox.DataSource = Supermarket.Machines.Keys.ToList();
+        
+        cashCheckbox.Checked = Supermarket.Cash;
+        deliveryCheckbox.Checked = Supermarket.Delivery;
+        cashOnDeliveryCheckbox.Checked = Supermarket.CashOnDelivery;
+        onlineCheckbox.Checked = Supermarket.Online;
+    }
+    private void saveTransactionsButton_Click(object sender, EventArgs e) => Supermarket.SaveTransactions();
 }

@@ -136,8 +136,8 @@ static class Data { public static List<Item> Items = new List<Item> {
     }; }
 public static class Supermarket
 {
-    public static string name = "Le Silpo";
-    public static string Adress = "21 Jump Street";
+    public static string Name = "Le Silpo";
+    public static string Address = "21 Jump Street";
     public static string JuridicalNumber = "70176892";
     public static bool Cash = true;
     public static bool Online = true;
@@ -145,12 +145,110 @@ public static class Supermarket
     public static bool CashOnDelivery = true;
     public static Dictionary<string, CheckoutBase> Machines = new Dictionary<string, CheckoutBase>();
     public static List<Item> Items = new List<Item>();
-    private static List<Transaction> Transactions = new List<Transaction>();
-    public static void SaveToFile() { }
-    public static void LoadFromFile() { }
-    public static void SaveTransactions() { }
-    public static void AddCheckout(CheckoutBase checkout) => Machines.TryAdd(checkout.Name, checkout);
-    public static void DeleteCheckout(string name) => Machines.Remove(name);
+    private static BindingList<Transaction> Transactions = new BindingList<Transaction>();
+
+    public static void SaveToFile()
+    {
+        using var dialog = new SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            Title = "Save Supermarket Data"
+        };
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+            return;
+        
+        var data = new SupermarketData
+        {
+            Name = Name,
+            Address = Address,
+            JuridicalNumber = JuridicalNumber,
+            Cash = Cash,
+            Online = Online,
+            Delivery = Delivery,
+            CashOnDelivery = CashOnDelivery,
+            MachinesKeys = Machines.Keys.ToList()
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            data,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+        );
+
+        File.WriteAllText(dialog.FileName, json);
+    }
+    public static void LoadFromFile()
+    {
+        using var dialog = new OpenFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            Title = "Load Supermarket Data"
+        };
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+            return;
+
+        var json = File.ReadAllText(dialog.FileName);
+
+        SupermarketData data = System.Text.Json.JsonSerializer.Deserialize<SupermarketData>(json);
+
+        if (data == null)
+            throw new Exception("Failed to deserialize supermarket data.");
+
+        Name            = data.Name;
+        Address         = data.Address;
+        JuridicalNumber = data.JuridicalNumber;
+        Cash            = data.Cash;
+        Online          = data.Online;
+        Delivery        = data.Delivery;
+        CashOnDelivery  = data.CashOnDelivery;
+
+        Machines.Clear();
+
+        foreach (var key in data.MachinesKeys)
+            AddMachine(key);
+    }
+    public static void SaveTransactions()
+    {
+        using var dialog = new SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json",
+            Title = "Save Transactions"
+        };
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+            return;
+
+        var data = Transactions.ToArray();
+
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            data,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+            );
+        
+        File.WriteAllText(dialog.FileName, json);
+    }
+    public static void AddMachine(CheckoutBase checkout) => Machines.TryAdd(checkout.Name, checkout);
+    public static void AddMachine(string key)
+    {
+        switch (key)
+        {
+            case "Cash Retail": 
+                AddMachine(new CashRetail()); break;
+            case "Cash Wholesale":
+                AddMachine(new CashWholesale()); break;
+            case "Card Retail":
+                AddMachine(new CardRetail()); break;
+            case "Card Wholesale":
+                AddMachine(new CardWholesale()); break;
+            case "Delivery Retail":
+                AddMachine(new DeliveryRetail()); break;
+            case "Delivery Wholesale":
+                AddMachine(new DeliveryWholesale()); break;
+            default: MessageBox.Show("Invalid machine key", "Error"); break;
+        }
+    }
+    public static void DeleteMachine(string name) => Machines.Remove(name);
     public static void AddItem(Item item)
     {
         if (Items.FirstOrDefault(i => i.Code == item.Code) is Item existing)
@@ -161,15 +259,29 @@ public static class Supermarket
         
         if (!Categories.Any(i => i == item.Category))
             Categories.Add(item.Category);
+
+        int x = Items.Count + 100000;
+        while (Items.Any(i => i.Code == x)) ++x;
         
-        item.Code = Items.Count + 100000;
+        item.Code = x;
         Items.Add(item);
     }
     public static void StockUp(int code, int quantity) => Items.First(i => i.Code == code).Quantity += quantity;
     public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
-    public static List<Transaction> getTransactions() => Transactions;
+    public static BindingList<Transaction> getTransactions() => Transactions;
 
     public static List<string> Categories = new List<String>();
+}
+public class SupermarketData
+{
+    public string Name { get; set; }
+    public string Address { get; set; }
+    public string JuridicalNumber { get; set; }
+    public bool Cash { get; set; }
+    public bool Online { get; set; }
+    public bool Delivery { get; set; }
+    public bool CashOnDelivery { get; set; }
+    public List<string> MachinesKeys { get; set; }
 }
 public class Transaction(DateTime date, decimal amount, string mode)
 {
