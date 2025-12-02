@@ -3,7 +3,7 @@ namespace DesktopApp;
 public partial class Machine : Form
 {
     CheckoutBase manager;
-
+    
     public Machine(CheckoutBase manager)
     {
         this.manager = manager;
@@ -28,7 +28,6 @@ public partial class Machine : Form
         transactionTable.Columns["Name"].ReadOnly = true;
         transactionTable.Columns["Price"].ReadOnly = true;
         
-        
         manager.UpdateUi += (s, e) => Update();
 
         transactionLayout.Controls.Add(manager.Layout, 0, 0);
@@ -39,7 +38,7 @@ public partial class Machine : Form
     private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
     {
         string cat = categoryCombobox.SelectedItem.ToString();
-        var filtered = (cat == "All") ? Supermarket.Items : Supermarket.Items.Where(c => c.Category == cat).ToList();
+        var filtered = (cat == "All") ? Supermarket.Items.ToList() : Supermarket.Items.Where(c => c.Category == cat).ToList();
         itemsTable.DataSource = filtered;
     }
     private void itemsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -73,8 +72,13 @@ public partial class Machine : Form
     }
     private void itemsProceed_Click(object sender, EventArgs e)
     {
-        if (manager.ValidQuantity) pages.SelectedIndex = 1;
-        else MessageBox.Show("Invalid quantity", "Error");
+        if (!manager.ValidQuantity)
+            MessageBox.Show("Invalid quantity", "Error");
+        
+        if (!manager.stockCheck())
+            return;
+        
+        pages.SelectedIndex = 1;
     }
     private void transactionProceedButton_Click(object sender, EventArgs e) 
     {

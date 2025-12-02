@@ -10,6 +10,10 @@ public partial class ControlPanel : Form
         deliveryCheckout.Click += (s, e) => cardCheckout.Checked = false;
 
         transactionsTable.DataSource = Supermarket.getTransactions();
+        itemsTable.DataSource = Supermarket.Items;
+        itemsTable.Columns["Name"].Visible = false;
+        itemsTable.Columns["Category"].Visible = false;
+        itemsTable.Columns["Price"].Visible = false;
         
         UpdateData();
     }

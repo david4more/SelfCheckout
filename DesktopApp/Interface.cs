@@ -7,6 +7,24 @@ public abstract class CheckoutBase
     private BindingList<Item> _Items = new BindingList<Item>();
     protected TableLayoutPanel _Layout = new TableLayoutPanel() { AutoSize = true };
     public event EventHandler? UpdateUi;
+    public event EventHandler<stockUpArgs>? onStockUp;
+    public event EventHandler? onOnlineFail;
+
+    public bool stockCheck()
+    {
+        bool enoughInStock = EnoughInStock;
+        if (!enoughInStock && Supermarket.Online) {
+            onOnlineFail?.Invoke(this, EventArgs.Empty);
+            return false;
+        }
+        if (!enoughInStock) {
+            foreach(var item in getLackingItems())
+                onStockUp?.Invoke(this, new stockUpArgs(item.Name, item.Quantity));
+            return false;
+        }
+
+        return true;
+    }
     protected void Update() => UpdateUi?.Invoke(this, EventArgs.Empty);
     public BindingList<Item> Items => _Items;
     public TableLayoutPanel Layout => _Layout;
@@ -28,15 +46,14 @@ public abstract class CheckoutBase
         var masterItem = Supermarket.Items.FirstOrDefault(i => i.Code == code);
         if (masterItem == null) return;
 
-        if (set)
-            masterItem.Quantity = quantity;
-        else
-            masterItem.Quantity = DefaultQuantity;
+        int newQuantity = set ? masterItem.Quantity : DefaultQuantity;
 
-        _Items.Add(new Item(masterItem.Name, masterItem.Price, masterItem.Category, masterItem.Quantity, masterItem.Code));
+        _Items.Add(new Item(masterItem.Name, masterItem.Price, masterItem.Category, newQuantity, masterItem.Code));
     }
     public void RemoveItem(int code)
     {
+        if (!ValidTransaction || !EnoughInStock) return;
+        
         var item = _Items.FirstOrDefault(i => i.Code == code);
         if (item != null) 
             _Items.Remove(item);
@@ -48,10 +65,20 @@ public abstract class CheckoutBase
     }
     protected virtual decimal Sum => ItemsSum;
     protected decimal ItemsSum  => _Items.Sum(i => i.Price * i.Quantity);
-    public bool ValidQuantity => _Items.Count != 0;
+    public bool ValidQuantity => _Items.Count != 0 && EnoughInStock;
     public decimal Price => Math.Round(Sum, 2);
     public virtual int DefaultQuantity => 0;
     public virtual bool ValidTransaction => Price <= _Amount;
+    public bool EnoughInStock => 
+        _Items.All(i => i.Quantity <= Supermarket.Items.First(m => m.Code == i.Code).Quantity);
+
+    public List<Item> getLackingItems()
+    {
+        var items = _Items.Where(i => i.Quantity > Supermarket.Items.First(m => m.Code == i.Code).Quantity).ToList();
+        foreach(var item in items) item.Quantity = Supermarket.Items.First(m => m.Code == item.Code).Quantity - item.Quantity;
+        return items;
+    }
+
     public virtual string Name => "Base";
     public string OnComplete => ValidTransaction ? CompleteText : "Invalid Transaction";
     protected virtual string CompleteText => "Complete";

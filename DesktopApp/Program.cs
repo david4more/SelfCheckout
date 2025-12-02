@@ -144,9 +144,22 @@ public static class Supermarket
     public static bool Delivery = true;
     public static bool CashOnDelivery = true;
     public static Dictionary<string, CheckoutBase> Machines = new Dictionary<string, CheckoutBase>();
-    public static List<Item> Items = new List<Item>();
+    public static BindingList<Item> Items = new BindingList<Item>();
     private static BindingList<Transaction> Transactions = new BindingList<Transaction>();
 
+    private static List<string> EventsLogs = new List<string>();
+    public static void StockUp(object sender, stockUpArgs args)
+    {
+        var log = $"Not enough items in stock: {args.name} - {args.quantity}";
+        Console.WriteLine(log);
+        EventsLogs.Add(log);
+    }
+    public static void OnlineFail(object sender, EventArgs args)
+    {
+        var log = "Unable to process online transaction";
+        MessageBox.Show(log);
+        EventsLogs.Add(log);
+    }
     public static void SaveToFile()
     {
         using var dialog = new SaveFileDialog
@@ -228,7 +241,12 @@ public static class Supermarket
         
         File.WriteAllText(dialog.FileName, json);
     }
-    public static void AddMachine(CheckoutBase checkout) => Machines.TryAdd(checkout.Name, checkout);
+    public static void AddMachine(CheckoutBase checkout) {
+        if (Machines.TryAdd(checkout.Name, checkout)) {
+            checkout.onStockUp += StockUp;
+            checkout.onOnlineFail += OnlineFail;
+        }
+    }
     public static void AddMachine(string key)
     {
         switch (key)
@@ -245,7 +263,7 @@ public static class Supermarket
                 AddMachine(new DeliveryRetail()); break;
             case "Delivery Wholesale":
                 AddMachine(new DeliveryWholesale()); break;
-            default: MessageBox.Show("Invalid machine key", "Error"); break;
+            default: MessageBox.Show("Invalid machine key", "Error"); return;
         }
     }
     public static void DeleteMachine(string name) => Machines.Remove(name);
@@ -269,9 +287,12 @@ public static class Supermarket
     public static void StockUp(int code, int quantity) => Items.First(i => i.Code == code).Quantity += quantity;
     public static void addTransaction(Transaction transaction) =>  Transactions.Add(transaction);
     public static BindingList<Transaction> getTransactions() => Transactions;
-
     public static List<string> Categories = new List<String>();
 }
+public class stockUpArgs(string n, int q) : EventArgs
+{ 
+    public string name = n; public int quantity = q;
+} 
 public class SupermarketData
 {
     public string Name { get; set; }
@@ -289,7 +310,7 @@ public class Transaction(DateTime date, decimal amount, string mode)
     public DateTime Date { get; init; } = date;
     public decimal Amount { get; init; } = amount;
 }
-public class Item(string name, decimal price, string category, int quantity = 0, int code = 0)
+public class Item(string name, decimal price, string category, int quantity = 20, int code = 0)
 {
     public string Name { get; init; } = name;
     public decimal Price { get; init; } = price;
